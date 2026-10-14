@@ -1,5 +1,149 @@
-﻿@page "/"
+﻿@page "/home"
+@using CalculadoraFilamentoPro.Components.Shared.Calcutador
 
-<h1>Hello, world!</h1>
+<div class="titulo-pagina">
+    <div class="icone-quadro"><i class="bi bi-calculator"></i></div>
+    <div>
+        <h1>Nova Cotação Rápida</h1>
+        <p>Cálculo instantâneo e direto para precificação de peças 3D</p>
+    </div>
+    <button class="btn-escuro pequeno" @onclick="Limpar"><i class="bi bi-arrow-clockwise"></i> Limpar Campos</button>
+</div>
 
-Welcome to your new app.
+<div class="grade">
+    <!-- ============ PARÂMETROS ============ -->
+    <section class="card">
+        <div class="card-titulo">
+            <h2><i class="bi bi-sliders laranja-txt"></i> PARÂMETROS DE CUSTO</h2>
+            <span class="mono suave">6 CAMPOS ESSENCIAIS</span>
+        </div>
+
+        <div class="campos">
+            <div class="grupo">
+                <div class="rotulo"><b>1. Peso da Peça</b><span class="mono suave">Gramas (g)</span></div>
+                <div class="campo">
+                    <input type="number" step="any" @bind="PesoGramas" @bind:event="oninput" />
+                    <span>g</span>
+                </div>
+            </div>
+
+            <div class="grupo">
+                <div class="rotulo"><b>2. Preço do Filamento</b><span class="mono suave">R$ por 1kg</span></div>
+                <select class="seletor" @onchange="AoEscolherFilamento">
+                    @foreach (var f in Filamentos)
+                    {
+                        <option value="@f.Nome" selected="@(f.Nome == FilamentoNome)">@f.Nome • R$ @f.PrecoKg.ToString("N0")</option>
+                    }
+                </select>
+                <div class="campo">
+                    <span>R$</span>
+                    <input type="number" step="any" @bind="PrecoKg" @bind:event="oninput" />
+                    <span class="selo-preset mono">PRESET</span>
+                </div>
+            </div>
+
+            <div class="grupo">
+                <div class="rotulo"><b>3. Tempo de Impressão</b></div>
+                <div class="campo">
+                    <input type="number" step="any" @bind="Horas" @bind:event="oninput" />
+                    <span>horas</span>
+                </div>
+            </div>
+
+            <div class="grupo">
+                <div class="rotulo"><span></span><span class="mono suave">Duração da Máquina</span></div>
+                <div class="campo">
+                    <input type="number" step="any" @bind="Minutos" @bind:event="oninput" />
+                    <span>min</span>
+                </div>
+            </div>
+
+            <div class="grupo">
+                <div class="rotulo"><b>4. Tarifa de Energia</b><span class="mono suave">R$/kWh</span></div>
+                <div class="campo">
+                    <span>R$</span>
+                    <input type="number" step="any" @bind="TarifaKwh" @bind:event="oninput" />
+                    <span>/kWh</span>
+                </div>
+            </div>
+
+            <div class="grupo">
+                <div class="rotulo"><b>5. Desgaste da Impressora</b><span class="mono laranja-txt">Fixo por Setup</span></div>
+                <div class="campo">
+                    <span>R$</span>
+                    <input type="number" step="any" @bind="Desgaste" @bind:event="oninput" />
+                </div>
+            </div>
+
+            <div class="grupo largo">
+                <div class="rotulo"><b>6. Mão de Obra &amp; Serviço</b><span class="mono verde-txt">PREÇO DO SEU TRABALHO</span></div>
+                <div class="campo">
+                    <span>R$</span>
+                    <input class="laranja-txt" type="number" step="any" @bind="MaoDeObra" @bind:event="oninput" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <CardResult Total="@Total"
+              CustoMaterial="@CustoMaterial"
+              CustoEnergia="@CustoEnergia"
+              Desgaste="@Desgaste"
+              MaoDeObra="@MaoDeObra"
+              Copiado="@copiado"
+              OnCopiar="@CopiarOrcamento" />
+</div>
+
+@code {
+    record Filamento(string Nome, double PrecoKg);
+
+    const double PotenciaKw = 0.15; // impressora de ~150 W
+
+    List<Filamento> Filamentos = new()
+    {
+        new("PLA Hyper Speed Laranja", 120),
+        new("PETG Preto", 130),
+        new("ABS Cinza", 110),
+    };
+
+    string FilamentoNome = "PLA Hyper Speed Laranja";
+    double PesoGramas = 150;
+    double PrecoKg = 120;
+    double Horas = 6;
+    double Minutos = 30;
+    double TarifaKwh = 0.85;
+    double Desgaste = 15;
+    double MaoDeObra = 40;
+    bool copiado;
+
+    double CustoMaterial => PesoGramas / 1000 * PrecoKg;
+    double CustoEnergia => (Horas + Minutos / 60) * PotenciaKw * TarifaKwh;
+    double Total => CustoMaterial + CustoEnergia + Desgaste + MaoDeObra;
+
+    void AoEscolherFilamento(ChangeEventArgs e)
+    {
+        FilamentoNome = e.Value?.ToString() ?? "";
+        var f = Filamentos.FirstOrDefault(x => x.Nome == FilamentoNome);
+        if (f != null) PrecoKg = f.PrecoKg;
+    }
+
+    void Limpar()
+    {
+        PesoGramas = 0; Horas = 0; Minutos = 0;
+    }
+
+    async Task CopiarOrcamento()
+    {
+        var texto = $"*Orçamento de impressão 3D*\n" +
+                    $"Material: {CustoMaterial:C2}\n" +
+                    $"Energia: {CustoEnergia:C2}\n" +
+                    $"Desgaste: {Desgaste:C2}\n" +
+                    $"Serviço: {MaoDeObra:C2}\n" +
+                    $"*Total: {Total:C2}*";
+
+        await Clipboard.Default.SetTextAsync(texto);
+        copiado = true;
+        await Task.Delay(2000);
+        copiado = false;
+    }
+}

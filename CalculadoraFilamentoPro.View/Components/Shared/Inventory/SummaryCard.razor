@@ -1,0 +1,80 @@
+﻿<div class="summary-card">
+
+    <div class="top">
+
+        <span class="title">
+            @Title
+        </span>
+
+        @if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <i class="@Icon"></i>
+        }
+
+    </div>
+
+    <div class="value">
+        @Value
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(SubValue))
+    {
+        <div class="subvalue">
+            @SubValue
+        </div>
+    }
+
+    <div class="description">
+        @Description
+    </div>
+
+    @if (ShowProgress)
+    {
+        <div class="progress">
+
+            <div class="fill"
+                 style="width:@($"{Progress}%");background:@ProgressColor">
+            </div>
+
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(FooterLeft) ||
+         !string.IsNullOrWhiteSpace(FooterRight))
+    {
+
+        <div class="footer">
+
+            <span>@FooterLeft</span>
+
+            <strong>@FooterRight</strong>
+
+        </div>
+
+    }
+
+</div>
+
+@code {
+
+    [Parameter] public string Title { get; set; } = "";
+
+    [Parameter] public string Value { get; set; } = "";
+
+    [Parameter] public string SubValue { get; set; } = "";
+
+    [Parameter] public string Description { get; set; } = "";
+
+    [Parameter] public string FooterLeft { get; set; } = "";
+
+    [Parameter] public string FooterRight { get; set; } = "";
+
+    [Parameter] public string Icon { get; set; } = "";
+
+    [Parameter] public string ProgressColor { get; set; } = "#ff6b00";
+
+    [Parameter] public double Progress { get; set; }
+
+    [Parameter] public bool ShowProgress { get; set; }
+
+}

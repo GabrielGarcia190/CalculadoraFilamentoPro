@@ -1,6 +1,6 @@
-﻿namespace CalculadoraFilamentoPro.View
+﻿namespace CalculadoraFilamentoPro
 {
-    public partial class App : Application
+    public partial class App : IApplication
     {
         public App()
         {
@@ -9,7 +9,7 @@
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new MainPage()) { Title = "CalculadoraFilamentoPro.View" };
+            return new Window(new MainPage()) { Title = "CalculadoraFilamentoPro" };
         }
     }
 }

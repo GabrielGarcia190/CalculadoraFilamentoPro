@@ -1,0 +1,54 @@
+﻿<div class="inventory-filters">
+
+    <div class="search">
+
+        <i class="bi bi-search"></i>
+
+        <input placeholder="Buscar por código, marca ou cor..." />
+
+    </div>
+
+    <div class="chips">
+
+        @foreach (var categoria in Categorias)
+        {
+            <button class="chip @(categoria == CategoriaSelecionada ? "active" : "")"
+                    @onclick="() => Selecionar(categoria)">
+
+                @categoria
+
+            </button>
+        }
+
+    </div>
+
+    <select class="status">
+
+        <option>Status: Todos</option>
+        <option>Disponíveis</option>
+        <option>Baixo Estoque</option>
+        <option>Crítico</option>
+
+    </select>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public List<string> Categorias { get; set; } = new();
+
+    [Parameter]
+    public string CategoriaSelecionada { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> CategoriaSelecionadaChanged { get; set; }
+
+    async Task Selecionar(string categoria)
+    {
+        CategoriaSelecionada = categoria;
+
+        await CategoriaSelecionadaChanged.InvokeAsync(categoria);
+    }
+
+}

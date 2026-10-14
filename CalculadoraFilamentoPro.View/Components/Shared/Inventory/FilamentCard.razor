@@ -1,0 +1,130 @@
+﻿<div class="filament-card">
+
+    <div class="card-header">
+
+        <div class="material-badge @MaterialClass">
+            @Material
+        </div>
+
+        <div class="status @StatusClass">
+            <i class="bi bi-circle-fill"></i>
+            @Status
+        </div>
+
+    </div>
+
+    <div class="filament-name">
+        @Nome
+    </div>
+
+    <div class="brand">
+        @Marca
+    </div>
+
+    <div class="weight-section">
+
+        <div class="weight-info">
+
+            <span>Disponível</span>
+
+            <strong>@PesoAtual g</strong>
+
+        </div>
+
+        <div class="weight-info">
+
+            <span>Original</span>
+
+            <strong>@PesoOriginal g</strong>
+
+        </div>
+
+    </div>
+
+    <div class="progress">
+
+        <div class="progress-fill"
+             style="width:@($"{Percentual}%")">
+        </div>
+
+    </div>
+
+    <div class="percentage">
+        @Percentual%
+    </div>
+
+    <div class="details">
+
+        <div class="item">
+
+            <span>Valor Compra</span>
+
+            <strong>@ValorCompra</strong>
+
+        </div>
+
+        <div class="item">
+
+            <span>Custo / g</span>
+
+            <strong class="orange">@ValorGrama</strong>
+
+        </div>
+
+        <div class="item">
+
+            <span>Fornecedor</span>
+
+            <strong>@Fornecedor</strong>
+
+        </div>
+
+        <div class="item">
+
+            <span>Entrada</span>
+
+            <strong>@DataEntrada</strong>
+
+        </div>
+
+    </div>
+
+    <button class="details-button">
+
+        <i class="bi bi-eye"></i>
+
+        Visualizar Detalhes
+
+    </button>
+
+</div>
+
+@code {
+
+    [Parameter] public string Material { get; set; } = "";
+
+    [Parameter] public string MaterialClass { get; set; } = "";
+
+    [Parameter] public string Status { get; set; } = "";
+
+    [Parameter] public string StatusClass { get; set; } = "";
+
+    [Parameter] public string Nome { get; set; } = "";
+
+    [Parameter] public string Marca { get; set; } = "";
+
+    [Parameter] public int PesoAtual { get; set; }
+
+    [Parameter] public int PesoOriginal { get; set; }
+
+    [Parameter] public int Percentual { get; set; }
+
+    [Parameter] public string ValorCompra { get; set; } = "";
+
+    [Parameter] public string ValorGrama { get; set; } = "";
+
+    [Parameter] public string Fornecedor { get; set; } = "";
+
+    [Parameter] public string DataEntrada { get; set; } = "";
+
+}

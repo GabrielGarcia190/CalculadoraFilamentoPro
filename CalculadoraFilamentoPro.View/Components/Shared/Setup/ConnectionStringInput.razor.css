@@ -1,0 +1,51 @@
+.connection-container {
+    margin-top: 35px;
+}
+
+.connection-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: #CAB49E;
+    letter-spacing: 1px;
+    font-size: 13px;
+}
+
+.tls {
+    color: #45D59A;
+}
+
+.connection-input {
+    display: flex;
+    align-items: center;
+    background: #11192B;
+    border: 1px solid #2A354D;
+    border-radius: 8px;
+    padding: 0 15px;
+    height: 55px;
+}
+
+    .connection-input input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        color: white;
+        outline: none;
+        font-size: 16px;
+    }
+
+    .connection-input i {
+        color: #A6B0C7;
+    }
+
+    .connection-input button {
+        background: none;
+        border: none;
+        color: #9AA3B5;
+    }
+
+.connection-container small {
+    display: block;
+    margin-top: 12px;
+    color: #A5AFC2;
+}

@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace CalculadoraFilamentoPro.View
+namespace CalculadoraFilamentoPro
 {
     [Application]
     public class MainApplication : MauiApplication

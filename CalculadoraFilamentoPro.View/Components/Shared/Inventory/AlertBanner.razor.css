@@ -1,0 +1,59 @@
+.alert-banner {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #1A2235;
+    border: 1px solid #2D3750;
+    border-radius: 16px;
+    padding: 22px 24px;
+    margin: 28px 0;
+}
+
+.alert-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #4A1D28;
+    display: grid;
+    place-items: center;
+    color: #FFA6A6;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    color: #FFB6B6;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+    .alert-title span {
+        color: #C6CAD8;
+        margin-left: 8px;
+        font-weight: 500;
+    }
+
+.alert-description {
+    color: #E3E8F3;
+    line-height: 1.6;
+}
+
+.alert-button {
+    height: 46px;
+    padding: 0 18px;
+    border: none;
+    border-radius: 10px;
+    background: #2A344A;
+    color: #EDF2FF;
+    font-weight: 600;
+    transition: .25s;
+}
+
+    .alert-button:hover {
+        background: #37435C;
+    }

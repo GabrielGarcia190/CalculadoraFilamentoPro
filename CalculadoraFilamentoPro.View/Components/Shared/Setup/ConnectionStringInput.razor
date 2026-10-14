@@ -1,0 +1,41 @@
+﻿<div class="connection-container">
+
+    <div class="connection-header">
+
+        <span>
+
+            STRING DE CONEXÃO
+
+        </span>
+
+        <span class="tls">
+
+            ● TLS v1.3
+
+        </span>
+
+    </div>
+
+    <div class="connection-input">
+
+        <i class="bi bi-link-45deg"></i>
+
+        <InputText @bind-Value="ConnectionString"
+                   placeholder="@Placeholder" />
+
+        <button>
+
+            <i class="bi bi-x-circle"></i>
+
+        </button>
+
+    </div>
+
+    <small>
+
+        Exemplo:
+        postgresql://user:senha@host:5432/banco
+
+    </small>
+
+</div>

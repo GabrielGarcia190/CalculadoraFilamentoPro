@@ -1,0 +1,77 @@
+.inventory-filters {
+    background: #1A2235;
+    border: 1px solid #2B3449;
+    border-radius: 16px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #222C42;
+    border-radius: 10px;
+    padding: 0 14px;
+    height: 46px;
+    width: 320px;
+    flex-shrink: 0;
+}
+
+    .search i {
+        color: #93A0BB;
+    }
+
+    .search input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+    }
+
+        .search input::placeholder {
+            color: #7F8BA5;
+        }
+
+.chips {
+    display: flex;
+    gap: 10px;
+    flex: 1;
+    overflow-x: auto;
+}
+
+.chip {
+    height: 40px;
+    padding: 0 20px;
+    border: none;
+    border-radius: 10px;
+    background: #222C42;
+    color: #C7D1E6;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: .2s;
+}
+
+    .chip:hover {
+        background: #303D58;
+    }
+
+    .chip.active {
+        background: #FF6B00;
+        color: #161616;
+    }
+
+.status {
+    width: 180px;
+    height: 44px;
+    background: #222C42;
+    color: #E7ECF8;
+    border: 1px solid #303B52;
+    border-radius: 10px;
+    padding: 0 12px;
+    outline: none;
+}

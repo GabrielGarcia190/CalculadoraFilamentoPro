@@ -1,4 +1,4 @@
-﻿namespace CalculadoraFilamentoPro.View
+﻿namespace CalculadoraFilamentoPro
 {
     public partial class MainPage : ContentPage
     {

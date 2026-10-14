@@ -1,0 +1,20 @@
+.footer-status {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    color: #B8BFD0;
+    font-size: 13px;
+}
+
+    .footer-status i {
+        margin-right: 8px;
+    }
+
+        .footer-status i.bi-lock-fill {
+            color: #47D69B;
+        }
+
+        .footer-status i.bi-circle-fill {
+            color: #8FE2E8;
+            font-size: 8px;
+        }

@@ -1,0 +1,161 @@
+.filament-card {
+    background: #1A2235;
+    border: 1px solid #2B3449;
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    transition: .25s;
+}
+
+    .filament-card:hover {
+        transform: translateY(-5px);
+        border-color: #49556E;
+        box-shadow: 0 15px 40px rgba(0,0,0,.35);
+    }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.material-badge {
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+}
+
+    .material-badge.pla {
+        background: #ff6b00;
+    }
+
+    .material-badge.petg {
+        background: #0EA5E9;
+    }
+
+    .material-badge.abs {
+        background: #9333EA;
+    }
+
+    .material-badge.tpu {
+        background: #22C55E;
+    }
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+    .status.ok {
+        color: #47D98A;
+    }
+
+    .status.warning {
+        color: #F7C948;
+    }
+
+    .status.critical {
+        color: #F87171;
+    }
+
+    .status i {
+        font-size: 8px;
+    }
+
+.filament-name {
+    font-size: 22px;
+    font-weight: 800;
+    color: #EDF2FF;
+}
+
+.brand {
+    color: #A6B0C4;
+    margin-top: -12px;
+}
+
+.weight-section {
+    display: flex;
+    justify-content: space-between;
+}
+
+.weight-info {
+    display: flex;
+    flex-direction: column;
+}
+
+    .weight-info span {
+        color: #8F98AE;
+        font-size: 12px;
+    }
+
+    .weight-info strong {
+        font-size: 24px;
+        color: white;
+    }
+
+.progress {
+    height: 10px;
+    background: #2B3449;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #FF6B00;
+    border-radius: 999px;
+}
+
+.percentage {
+    text-align: right;
+    color: #8F98AE;
+    margin-top: -10px;
+    font-size: 13px;
+}
+
+.details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+    .item span {
+        color: #8F98AE;
+        font-size: 12px;
+    }
+
+    .item strong {
+        color: #EDF2FF;
+    }
+
+.orange {
+    color: #FF9D57;
+}
+
+.details-button {
+    margin-top: 8px;
+    height: 48px;
+    border: none;
+    border-radius: 10px;
+    background: #263147;
+    color: #EDF2FF;
+    font-weight: 700;
+    transition: .2s;
+}
+
+    .details-button:hover {
+        background: #33415D;
+    }

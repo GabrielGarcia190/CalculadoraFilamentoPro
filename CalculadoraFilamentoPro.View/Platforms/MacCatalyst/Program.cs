@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace CalculadoraFilamentoPro.View
+namespace CalculadoraFilamentoPro
 {
     public class Program
     {

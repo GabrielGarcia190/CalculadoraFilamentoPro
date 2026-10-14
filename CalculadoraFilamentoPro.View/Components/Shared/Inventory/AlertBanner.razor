@@ -1,0 +1,35 @@
+﻿<div class="alert-banner">
+
+    <div class="alert-icon">
+        <i class="bi bi-exclamation-triangle"></i>
+    </div>
+
+    <div class="alert-content">
+
+        <div class="alert-title">
+            ATENÇÃO DE ESTOQUE MÍNIMO ( 200g)
+            <span>@QuantidadeCritica carretéis em risco</span>
+        </div>
+
+        <div class="alert-description">
+            @Descricao
+        </div>
+
+    </div>
+
+    <button class="alert-button">
+        <i class="bi bi-funnel"></i>
+        Filtrar Carretéis Críticos
+    </button>
+
+</div>
+
+@code{
+
+    [Parameter]
+    public int QuantidadeCritica { get; set; }
+
+    [Parameter]
+    public string Descricao { get; set; } = "";
+
+}

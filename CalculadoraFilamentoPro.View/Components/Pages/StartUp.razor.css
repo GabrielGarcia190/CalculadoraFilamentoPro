@@ -1,0 +1,58 @@
+.startup {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #091120;
+}
+
+.startup-card {
+    width: 420px;
+    background: #171F31;
+    padding: 45px;
+    border-radius: 18px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+.logo {
+    width: 90px;
+    height: 90px;
+    border-radius: 18px;
+    background: #33261E;
+    color: #ff7300;
+    margin: auto;
+    display: grid;
+    place-items: center;
+    font-size: 40px;
+    margin-bottom: 25px;
+}
+
+.startup h1 {
+    color: white;
+    margin-bottom: 15px;
+}
+
+.startup p {
+    color: #C7CBD8;
+    margin-bottom: 35px;
+}
+
+.progress {
+    height: 8px;
+    background: #273147;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    background: #ff7300;
+    transition: .35s;
+}
+
+.loader span {
+    margin-top: 10px;
+    display: block;
+    color: #A8B0C5;
+}

@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace CalculadoraFilamentoPro.View
+namespace CalculadoraFilamentoPro
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

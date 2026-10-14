@@ -1,0 +1,62 @@
+﻿@page "/inventory"
+
+<InventoryHeader />
+
+<div class="summary-grid">
+
+    <SummaryCard
+        Title="Patrimônio em Filamentos"
+        Value="R$ 1.840,50"
+        Description="18 carretéis catalogados"
+        FooterLeft="Investimento"
+        FooterRight="100%"
+        ShowProgress="true"
+        Progress="100"
+        ProgressColor="#ff6b00"
+        Icon="bi bi-wallet2" />
+
+    <SummaryCard
+        Title="Consumo em Produção"
+        Value="9,60 kg"
+        Description="R$ 1.185,20 faturado"
+        FooterLeft="Amortização"
+        FooterRight="62,3%"
+        ShowProgress="true"
+        Progress="62"
+        ProgressColor="#81E6FF"
+        Icon="bi bi-activity" />
+
+</div>
+
+<AlertBanner
+    QuantidadeCritica="2"
+    Descricao="O carretel TPU Flex 95A (#FIL-2025-018) possui apenas 140g restantes e o PLA Silk Ouro (#FIL-2025-019) possui 180g. Risco de interrupção em prints longos." />
+
+<InventoryFilters
+    Categorias="@Categorias"
+    CategoriaSelecionada="@Categoria"
+    CategoriaSelecionadaChanged="OnCategoriaChanged" />
+
+<div class="filaments-grid">
+
+    <FilamentCard
+        Material="PLA"
+        MaterialClass="pla"
+        Status="Disponível"
+        StatusClass="ok"
+        Nome="PLA Preto Onyx"
+        Marca="3D Fila Pro"
+        PesoAtual="680"
+        PesoOriginal="1000"
+        Percentual="68"
+        ValorCompra="R$ 119,90"
+        ValorGrama="R$ 0,119"
+        Fornecedor="3D Lab"
+        DataEntrada="10/01/2026" />
+
+</div>
+
+<Pagination
+    CurrentPage="@Pagina"
+    TotalPages="5"
+    CurrentPageChanged="OnPageChanged" />
