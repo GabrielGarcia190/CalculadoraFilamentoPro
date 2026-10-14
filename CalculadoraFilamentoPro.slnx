@@ -1,5 +1,2 @@
 <Solution>
-  <Project Path="CalculadoraFilamentoPro.View.csproj">
-    <Deploy Solution="Debug|*" />
-  </Project>
 </Solution>
