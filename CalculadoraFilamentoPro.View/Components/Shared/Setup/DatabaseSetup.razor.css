@@ -138,3 +138,28 @@
         font-weight: 600;
         color: #E3B48E;
     }
+
+/* Additional layout rules for provider selection and actions */
+.providers-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+}
+
+.provider-button {
+    all: unset;
+    cursor: pointer;
+    display: inline-block;
+    width: 100%;
+}
+
+.providers-grid > .provider-button { width: 50%; }
+
+.connection-header, .connection-help { margin-top: 8px; }
+
+.setup-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:12px; }
+
+.provider-card.selected {
+    border: 1px solid #E3B48E;
+    box-shadow: 0 6px 18px rgba(227,180,142,0.08);
+}

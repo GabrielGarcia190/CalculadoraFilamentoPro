@@ -1,24 +1,12 @@
 ﻿@page "/setup/database"
+@using CalculadoraFilamentoPro.Domain.Configurations.Enums
 
 <div class="setup-page">
-
-    <div class="telemetry-bar">
-        <span>
-            <i class="bi bi-circle-fill"></i>
-            TELEMETRY PROTOCOL: INIT_STATE
-        </span>
-
-        <div class="telemetry-right">
-            <span>NODE: 0X88F2_SYS</span>
-            <span class="status">STANDALONE SECURE SESSION</span>
-        </div>
-    </div>
 
     <main class="setup-content">
 
         <div class="setup-card">
 
-            <!-- Cabeçalho -->
             <SetupHeader />
 
             <div class="setup-body">
@@ -38,6 +26,7 @@
 
                     </div>
 
+
                     <div class="providers-header">
 
                         <span>PROVEDOR DE DADOS</span>
@@ -46,39 +35,62 @@
 
                     </div>
 
+
                     <div class="providers-grid">
 
-                        <DatabaseProviderCard Icon="bi bi-hdd-network"
-                                              Title="PostgreSQL"
-                                              Subtitle="Recomendado"
-                                              Selected="true" />
+                        <DatabaseProviderCard 
+                            Icon="bi bi-hdd-network"
+                            Title="PostgreSQL"
+                            Subtitle="Recomendado"
+                            Selected="@(SelectedProvider == EDatabaseProvider.PostgreSql)"
+                            OnClick="() => SelectProvider(EDatabaseProvider.PostgreSql)" />
 
-                        <DatabaseProviderCard Icon="bi bi-device-hdd"
-                                              Title="SQLite"
-                                              Subtitle=".db Local" />
 
-         @*                <DatabaseProviderCard Icon="bi bi-diagram-3"
-                                              Title="MySQL / MariaDB"
-                                              Subtitle="Relacional" /> *@
-@* 
-                        <DatabaseProviderCard Icon="bi bi-cloud"
-                                              Title="Cloud / Supabase"
-                                              Subtitle="Managed" /> *@
+                        <DatabaseProviderCard 
+                            Icon="bi bi-device-hdd"
+                            Title="SQLite"
+                            Subtitle=".db Local"
+                            Selected="@(SelectedProvider == EDatabaseProvider.SQLite)"
+                            OnClick="() => SelectProvider(EDatabaseProvider.SQLite)" />
 
                     </div>
+
                 </section>
+
+
                 <div class="connection-header">
 
-                    <span>STRING DE CONEXÃO (CONNECTION STRING URI)</span>
-
-                    <span class="tls">
-                        <i class="bi bi-circle-fill"></i>
-                        TLS v1.3
+                    <span>
+                        STRING DE CONEXÃO (CONNECTION STRING URI)
                     </span>
 
                 </div>
 
-                <ConnectionStringInput @bind-Value="ConnectionString" />
+
+                <ConnectionStringInput 
+                    @bind-Value="ConnectionString" />
+
+
+                <div class="setup-actions">
+
+                    <button class="btn-escuro"
+                            @onclick="Cancel">
+
+                        Cancelar
+
+                    </button>
+
+
+                    <button class="btn-laranja"
+                            disabled="@(!CanConfirm)"
+                            @onclick="ConfirmAsync">
+
+                        Confirmar
+
+                    </button>
+
+                </div>
+
 
                 <div class="connection-help">
 
@@ -87,33 +99,29 @@
                     <div>
 
                         Exemplo:
-                        <strong>postgresql://user:password@host:port/dbname</strong>
 
-                        ou
-
-                        <strong>sqlite:///dados.db</strong>
+                        @if(SelectedProvider == EDatabaseProvider.PostgreSql)
+                        {
+                            <strong>
+                                Host=localhost;Port=5432;Database=app;Username=user;Password=senha
+                            </strong>
+                        }
+                        else
+                        {
+                            <strong>
+                                Data Source=dados.db
+                            </strong>
+                        }
 
                     </div>
 
                 </div>
+
 
             </div>
 
         </div>
 
     </main>
-
-    <footer class="setup-footer">
-
-        <span>
-            <i class="bi bi-terminal"></i>
-            INDUSTRIAL CAD/CAM CORE ENVIRONMENT
-        </span>
-
-        <span>
-            ORCHESTRATOR v4.19.0-RELEASE
-        </span>
-
-    </footer>
 
 </div>
