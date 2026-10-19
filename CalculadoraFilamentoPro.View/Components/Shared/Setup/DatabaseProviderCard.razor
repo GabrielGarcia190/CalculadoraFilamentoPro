@@ -1,14 +1,25 @@
-﻿<div class="provider-card @(Selected ? "selected" : "")"
-     @onclick="Selecionar">
+﻿<div class="provider-card @(Selected ? "selected" : "")">
 
-    <i class="@Icon provider-icon"></i>
+    <i class="@Icon icon"></i>
 
-    <div class="provider-title">
-        @Title
-    </div>
+    <h3>@Title</h3>
 
-    <div class="provider-subtitle">
-        @Subtitle
-    </div>
+    <span>@Subtitle</span>
 
 </div>
+
+@code {
+
+    [Parameter]
+    public string Title { get; set; } = "";
+
+    [Parameter]
+    public string Subtitle { get; set; } = "";
+
+    [Parameter]
+    public string Icon { get; set; } = "";
+
+    [Parameter]
+    public bool Selected { get; set; }
+
+}

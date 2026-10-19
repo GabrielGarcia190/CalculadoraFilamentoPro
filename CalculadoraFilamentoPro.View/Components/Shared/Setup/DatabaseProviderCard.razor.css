@@ -1,41 +1,48 @@
 .provider-card {
-    height: 150px;
-    background: #1B2438;
-    border: 1px solid #29344B;
+    height: 155px;
+    background: #1A2338;
     border-radius: 10px;
+    border: 1px solid rgba(255,255,255,.04);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
     transition: .25s;
+    cursor: pointer;
 }
 
     .provider-card:hover {
         transform: translateY(-3px);
-        border-color: #ff7a18;
+        border-color: #ff7900;
     }
 
     .provider-card.selected {
-        background: #262F45;
-        border: 2px solid #ff7a18;
-        box-shadow: 0 0 25px rgba(255,120,0,.15);
+        border: 2px solid #ff7900;
+        background: #2A3347;
     }
 
-.provider-icon {
-    font-size: 34px;
-    color: #ff7a18;
-    margin-bottom: 15px;
-}
+    .provider-card .icon {
+        font-size: 34px;
+        color: #F3C4A5;
+        margin-bottom: 18px;
+    }
 
-.provider-title {
-    color: white;
-    font-size: 20px;
-    font-weight: 700;
-}
+    .provider-card h3 {
+        margin: 0;
+        color: #F2F4FB;
+        font-size: 21px;
+    }
 
-.provider-subtitle {
-    margin-top: 8px;
-    color: #C7B29E;
-    font-size: 13px;
-}
+    .provider-card span {
+        margin-top: 10px;
+        color: #A7AEBD;
+        font-size: 14px;
+    }
+
+    .provider-card.selected h3 {
+        color: #ff7900;
+    }
+
+    .provider-card.selected span {
+        color: #ffb26d;
+    }

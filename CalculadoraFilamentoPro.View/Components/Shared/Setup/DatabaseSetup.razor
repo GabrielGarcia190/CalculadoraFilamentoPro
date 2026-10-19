@@ -1,0 +1,119 @@
+﻿@page "/setup/database"
+
+<div class="setup-page">
+
+    <div class="telemetry-bar">
+        <span>
+            <i class="bi bi-circle-fill"></i>
+            TELEMETRY PROTOCOL: INIT_STATE
+        </span>
+
+        <div class="telemetry-right">
+            <span>NODE: 0X88F2_SYS</span>
+            <span class="status">STANDALONE SECURE SESSION</span>
+        </div>
+    </div>
+
+    <main class="setup-content">
+
+        <div class="setup-card">
+
+            <!-- Cabeçalho -->
+            <SetupHeader />
+
+            <div class="setup-body">
+
+                <section class="database-card">
+
+                    <div class="database-title">
+
+                        <h2>
+                            <i class="bi bi-database-fill"></i>
+                            Conectar Banco de Dados
+                        </h2>
+
+                        <p>
+                            Selecione o provedor e insira sua string de conexão para inicializar o sistema antes do acesso operacional.
+                        </p>
+
+                    </div>
+
+                    <div class="providers-header">
+
+                        <span>PROVEDOR DE DADOS</span>
+
+                        <span>DRIVER: NATIVO</span>
+
+                    </div>
+
+                    <div class="providers-grid">
+
+                        <DatabaseProviderCard Icon="bi bi-hdd-network"
+                                              Title="PostgreSQL"
+                                              Subtitle="Recomendado"
+                                              Selected="true" />
+
+                        <DatabaseProviderCard Icon="bi bi-device-hdd"
+                                              Title="SQLite"
+                                              Subtitle=".db Local" />
+
+                        <DatabaseProviderCard Icon="bi bi-diagram-3"
+                                              Title="MySQL / MariaDB"
+                                              Subtitle="Relacional" />
+
+                        <DatabaseProviderCard Icon="bi bi-cloud"
+                                              Title="Cloud / Supabase"
+                                              Subtitle="Managed" />
+
+                    </div>
+                </section>
+                <div class="connection-header">
+
+                    <span>STRING DE CONEXÃO (CONNECTION STRING URI)</span>
+
+                    <span class="tls">
+                        <i class="bi bi-circle-fill"></i>
+                        TLS v1.3
+                    </span>
+
+                </div>
+
+                <ConnectionStringInput @bind-Value="ConnectionString" />
+
+                <div class="connection-help">
+
+                    <i class="bi bi-info-circle"></i>
+
+                    <div>
+
+                        Exemplo:
+                        <strong>postgresql://user:password@host:port/dbname</strong>
+
+                        ou
+
+                        <strong>sqlite:///dados.db</strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="setup-footer">
+
+        <span>
+            <i class="bi bi-terminal"></i>
+            INDUSTRIAL CAD/CAM CORE ENVIRONMENT
+        </span>
+
+        <span>
+            ORCHESTRATOR v4.19.0-RELEASE
+        </span>
+
+    </footer>
+
+</div>

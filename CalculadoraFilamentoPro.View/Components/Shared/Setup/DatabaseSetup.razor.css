@@ -1,0 +1,140 @@
+.setup-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: radial-gradient(circle at top center, rgba(255,120,0,.06), transparent 35%), #091222;
+}
+
+/*======================*/
+/* Barra superior       */
+/*======================*/
+
+.telemetry-bar {
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    color: #AFA98E;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+    .telemetry-bar i {
+        color: #A8FFE8;
+        font-size: 7px;
+        margin-right: 10px;
+    }
+
+.telemetry-right {
+    display: flex;
+    gap: 26px;
+    align-items: center;
+}
+
+.status {
+    color: #48F7B5;
+    font-weight: 700;
+}
+
+/*======================*/
+/* Conteúdo             */
+/*======================*/
+
+.setup-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.setup-card {
+    width: 740px;
+    background: #161F33;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 25px 80px rgba(0,0,0,.45);
+    border: 1px solid rgba(255,255,255,.04);
+}
+
+.setup-body {
+    margin-top: 35px;
+    min-height: 420px;
+}
+
+/*======================*/
+/* Rodapé               */
+/*======================*/
+
+.setup-footer {
+    height: 34px;
+    padding: 0 26px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,.04);
+    color: #9A907F;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+
+.database-card {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.database-title {
+    background: #1C2438;
+    border-radius: 10px;
+    padding: 24px;
+}
+
+/*===========================*/
+/* Connection String          */
+/*===========================*/
+
+.connection-header {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #D8AE88;
+    font-size: 13px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.tls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #48E0B0;
+}
+
+    .tls i {
+        font-size: 7px;
+    }
+
+.connection-help {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    color: #C6C8D4;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+    .connection-help i {
+        margin-top: 2px;
+        color: #91B3D9;
+    }
+
+    .connection-help strong {
+        font-weight: 600;
+        color: #E3B48E;
+    }

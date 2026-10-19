@@ -73,10 +73,4 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\CalculadoraFilamentoPro.Application\CalculadoraFilamentoPro.Application.csproj" />
-      <ProjectReference Include="..\CalculadoraFilamentoPro.Domain\CalculadoraFilamentoPro.Domain.csproj" />
-      <ProjectReference Include="..\CalculadoraFilamentoPro.Ioc\CalculadoraFilamentoPro.Ioc.csproj" />
-    </ItemGroup>
-
 </Project>

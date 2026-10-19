@@ -1,41 +1,35 @@
-﻿<div class="connection-container">
+﻿<div class="connection-box">
 
-    <div class="connection-header">
+    <i class="bi bi-link-45deg"></i>
 
-        <span>
+    <input @bind="Value"
+           placeholder="Connection String" />
 
-            STRING DE CONEXÃO
+    @if (!string.IsNullOrWhiteSpace(Value))
+    {
+        <button class="clear-button"
+                @onclick="Clear">
 
-        </span>
-
-        <span class="tls">
-
-            ● TLS v1.3
-
-        </span>
-
-    </div>
-
-    <div class="connection-input">
-
-        <i class="bi bi-link-45deg"></i>
-
-        <InputText @bind-Value="ConnectionString"
-                   placeholder="@Placeholder" />
-
-        <button>
-
-            <i class="bi bi-x-circle"></i>
+            <i class="bi bi-x"></i>
 
         </button>
-
-    </div>
-
-    <small>
-
-        Exemplo:
-        postgresql://user:senha@host:5432/banco
-
-    </small>
+    }
 
 </div>
+
+@code {
+
+    [Parameter]
+    public string Value { get; set; } = "";
+
+    [Parameter]
+    public EventCallback<string> ValueChanged { get; set; }
+
+    async Task Clear()
+    {
+        Value = "";
+
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+}

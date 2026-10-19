@@ -1,51 +1,50 @@
-.connection-container {
-    margin-top: 35px;
-}
-
-.connection-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    color: #CAB49E;
-    letter-spacing: 1px;
-    font-size: 13px;
-}
-
-.tls {
-    color: #45D59A;
-}
-
-.connection-input {
+.connection-box {
+    height: 54px;
     display: flex;
     align-items: center;
-    background: #11192B;
-    border: 1px solid #2A354D;
+    gap: 12px;
+    padding: 0 18px;
+    background: #101726;
     border-radius: 8px;
-    padding: 0 15px;
-    height: 55px;
+    border: 1px solid #202C45;
 }
 
-    .connection-input input {
+    .connection-box:focus-within {
+        border-color: #ff7900;
+        box-shadow: 0 0 0 3px rgba(255,121,0,.12);
+    }
+
+    .connection-box > i {
+        color: #D7A986;
+        font-size: 20px;
+    }
+
+    .connection-box input {
         flex: 1;
-        background: transparent;
-        border: none;
-        color: white;
-        outline: none;
-        font-size: 16px;
-    }
-
-    .connection-input i {
-        color: #A6B0C7;
-    }
-
-    .connection-input button {
         background: none;
         border: none;
-        color: #9AA3B5;
+        outline: none;
+        color: #EEF3FF;
+        font-size: 15px;
+        font-family: "JetBrains Mono", monospace;
     }
 
-.connection-container small {
-    display: block;
-    margin-top: 12px;
-    color: #A5AFC2;
+        .connection-box input::placeholder {
+            color: #7C8497;
+        }
+
+.clear-button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 6px;
+    background: #232D42;
+    color: #A8B3C6;
+    cursor: pointer;
+    transition: .2s;
 }
+
+    .clear-button:hover {
+        background: #38435B;
+        color: white;
+    }
