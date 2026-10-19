@@ -12,7 +12,7 @@ namespace CalculadoraFilamentoPro.Components.Layout
 
         protected override async Task OnInitializedAsync()
         {
-            Configurado = false;
+            Configurado = await Config.DatabaseConfiguredAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CalculadoraFilamentoPro.Ioc;
+using Microsoft.Extensions.Logging;
 
 namespace CalculadoraFilamentoPro
 {
@@ -14,7 +15,7 @@ namespace CalculadoraFilamentoPro
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 });
 
-            //builder.Services.RegisterDependencies();
+            builder.Services.RegisterDependencies();
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG
