@@ -1,54 +1,63 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="app">
-    <aside class="sidebar @(menuAberto ? "" : "fechado")">
-        <div class="sidebar-topo">
-            <i class="bi bi-robot laranja-txt"></i>
-            <span class="mono">ENGENHARIA CAM</span>
-            <span class="versao mono">v2.4.0</span>
-        </div>
+@if (!Configurado)
+{
+    <DatabaseSetup />
+}
+else
+{
 
-        <NavMenu />
+    <div class="app">
+        <aside class="sidebar @(menuAberto ? "" : "fechado")">
+            <div class="sidebar-topo">
+                <i class="bi bi-robot laranja-txt"></i>
+                <span class="mono">ENGENHARIA CAM</span>
+                <span class="versao mono">v2.4.0</span>
+            </div>
 
-        <div class="sidebar-rodape mono">
-            <div><span>API</span><span class="verde-txt">ONLINE</span></div>
-            <div><span>TAXA KWH MÉDIA</span><b>R$ 0,84</b></div>
-        </div>
-    </aside>
+            <NavMenu />
 
-    <div class="principal">
-        <header class="topo">
-            <button class="btn-icone" @onclick="AlternarMenu" title="Menu">
-                <i class="bi bi-list"></i>
-            </button>
+            <div class="sidebar-rodape mono">
+                <div><span>API</span><span class="verde-txt">ONLINE</span></div>
+                <div><span>TAXA KWH MÉDIA</span><b>R$ 0,84</b></div>
+            </div>
+        </aside>
 
-            <div class="marca">
-                <i class="bi bi-box laranja-txt"></i>
-                <div>
-                    <div class="marca-nome">Print3D Calcs Pro</div>
-                    <div class="marca-sub mono">CALCULAR O PREÇO DAS PEÇAS IMPRESSAS</div>
+        <div class="principal">
+            <header class="topo">
+                <button class="btn-icone" @onclick="AlternarMenu" title="Menu">
+                    <i class="bi bi-list"></i>
+                </button>
+
+                <div class="marca">
+                    <i class="bi bi-box laranja-txt"></i>
+                    <div>
+                        <div class="marca-nome">Print3D Calcs Pro</div>
+                        <div class="marca-sub mono">CALCULAR O PREÇO DAS PEÇAS IMPRESSAS</div>
+                    </div>
                 </div>
-            </div>
 
-            <div class="topo-acoes">
-                <button class="btn-escuro"><i class="bi bi-bookmark-plus"></i> Salvar Preset</button>
-                <button class="btn-laranja pequeno"><i class="bi bi-file-earmark-pdf"></i> Exportar Orçamento (PDF)</button>
-                <div class="avatar"><i class="bi bi-person"></i></div>
-            </div>
-        </header>
+                <div class="topo-acoes">
+                    <button class="btn-escuro"><i class="bi bi-bookmark-plus"></i> Salvar Preset</button>
+                    <button class="btn-laranja pequeno"><i class="bi bi-file-earmark-pdf"></i> Exportar Orçamento (PDF)</button>
+                    <div class="avatar"><i class="bi bi-person"></i></div>
+                </div>
+            </header>
 
-        <main class="conteudo">
-            @Body
-        </main>
+            <main class="conteudo">
+                @Body
+            </main>
 
-        <footer class="rodape mono">
-            <span>© 2026 PRINT3D CALCS PRO</span>
-            <span>USUÁRIO ATIVO: #AM-8841-B</span>
-        </footer>
+            <footer class="rodape mono">
+                <span>© 2026 PRINT3D CALCS PRO</span>
+                <span>USUÁRIO ATIVO: #AM-8841-B</span>
+            </footer>
+        </div>
     </div>
-</div>
 
-@code {
+    @code {
     bool menuAberto = true;
     void AlternarMenu() => menuAberto = !menuAberto;
+}
+
 }

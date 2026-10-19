@@ -1,5 +1,4 @@
-﻿//using CalculadoraFilamentoPro.Ioc;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
 namespace CalculadoraFilamentoPro
 {
@@ -9,7 +8,7 @@ namespace CalculadoraFilamentoPro
         {
             var builder = MauiApp.CreateBuilder();
             builder
-                .UseMauiApp<App>()
+                .UseMauiApp<View.App>()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");

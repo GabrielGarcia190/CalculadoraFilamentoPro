@@ -1,4 +1,4 @@
-﻿namespace CalculadoraFilamentoPro
+﻿namespace CalculadoraFilamentoPro.View
 {
     public partial class App : IApplication
     {
