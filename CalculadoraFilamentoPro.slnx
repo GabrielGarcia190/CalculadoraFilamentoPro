@@ -1,5 +1,8 @@
 <Solution>
   <Project Path="CalculadoraFilamentoPro.App/CalculadoraFilamentoPro.App.csproj" Id="25a28fbe-c323-43e2-953a-f8174b03490c" />
+  <Project Path="CalculadoraFilamentoPro.Domain/CalculadoraFilamentoPro.Domain.csproj" Id="b4a635c6-2aa9-429e-a3b5-57f3d34be237" />
+  <Project Path="CalculadoraFilamentoPro.Infra/CalculadoraFilamentoPro.Infra.csproj" Id="43e8d44c-e8b9-40ab-b9ba-35899bef4b41" />
+  <Project Path="CalculadoraFilamentoPro.Ioc/CalculadoraFilamentoPro.Ioc.csproj" Id="b80640bc-0c02-4187-87d9-9f988dfd1900" />
   <Project Path="CalculadoraFilamentoPro.View/CalculadoraFilamentoPro.View.csproj" Id="a76df731-ffb9-4863-9119-bd2596c9d81b">
     <Deploy Solution="Debug|*" />
   </Project>

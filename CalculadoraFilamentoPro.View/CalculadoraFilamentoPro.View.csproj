@@ -75,6 +75,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CalculadoraFilamentoPro.App\CalculadoraFilamentoPro.App.csproj" />
+      <ProjectReference Include="..\CalculadoraFilamentoPro.Domain\CalculadoraFilamentoPro.Domain.csproj" />
+      <ProjectReference Include="..\CalculadoraFilamentoPro.Ioc\CalculadoraFilamentoPro.Ioc.csproj" />
     </ItemGroup>
 
 </Project>
