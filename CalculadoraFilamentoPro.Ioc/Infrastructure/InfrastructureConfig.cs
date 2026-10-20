@@ -1,7 +1,9 @@
 ﻿using CalculadoraFilamentoPro.Domain.Configurations.Entities;
 using CalculadoraFilamentoPro.Domain.Configurations.Repositories;
+using CalculadoraFilamentoPro.Domain.Users.Repositories;
 using CalculadoraFilamentoPro.Infra.Configuration.Repositories;
 using CalculadoraFilamentoPro.Infra.Shared.Persistence;
+using CalculadoraFilamentoPro.Infra.Users;
 using CalculadoraFilamentoPro.Ioc.Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -30,5 +32,6 @@ internal static class InfrastructureConfig
             return new AppDbContext(options);
         });
         services.AddScoped<IDataBaseInitializer, DatabaseInitializer>();
+        services.AddScoped<IUserRepository, UserRepository>();
     }
 }

@@ -1,13 +1,17 @@
 ﻿using CalculadoraFilamentoPro.Domain.Configurations.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace CalculadoraFilamentoPro.Domain.Configurations.Entities;
 
 public class ApplicationConfiguration
 {
+    [JsonInclude]
     public DataBaseConnection? Database { get; private set; }
 
+    [JsonInclude]
     public Guid? LastUserId { get; private set; }
 
+    [JsonInclude]
     public bool RememberUser { get; private set; }
 
     public ApplicationConfiguration() { }
@@ -25,5 +29,12 @@ public class ApplicationConfiguration
     {
         LastUserId = null;
         RememberUser = false;
+    }
+
+    public void Load(ApplicationConfiguration configuration)
+    {
+        Database = configuration.Database;
+        LastUserId = configuration.LastUserId;
+        RememberUser = configuration.RememberUser;
     }
 }

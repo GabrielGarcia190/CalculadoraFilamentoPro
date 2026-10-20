@@ -14,10 +14,17 @@ public class DatabaseInitializer : IDataBaseInitializer
 
     public async Task InitializeDatabaseAsync()
     {
-        var options = _factory.CreateOptions();
+        try
+        {
+            var options = _factory.CreateOptions();
 
-        using var context = new AppDbContext(options);
+            using var context = new AppDbContext(options);
 
-        await context.Database.MigrateAsync();
+            await context.Database.MigrateAsync();
+        }
+        catch(Exception ex)
+        {
+            Console.Write(ex.Message);
+        }
     }
 }

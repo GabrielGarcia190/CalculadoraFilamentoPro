@@ -47,6 +47,8 @@ public class ConfigurationRepository : IConfigurationRepository
         var json = JsonSerializer.Serialize(configuration, JsonOptions());
 
         await File.WriteAllTextAsync(_configurationFile, json);
+
+        Load();
     }
 
     private static JsonSerializerOptions JsonOptions()
@@ -66,8 +68,9 @@ public class ConfigurationRepository : IConfigurationRepository
             return;
         }
 
-        var json =  File.ReadAllText(_configurationFile);
+        var json = File.ReadAllText(_configurationFile);
 
-        Configuration = JsonSerializer.Deserialize<ApplicationConfiguration>(json) ?? new ApplicationConfiguration();
+        var configuration = JsonSerializer.Deserialize<ApplicationConfiguration>(json, JsonOptions()) ?? new ApplicationConfiguration();
+        Configuration.Load(configuration);
     }
 }
