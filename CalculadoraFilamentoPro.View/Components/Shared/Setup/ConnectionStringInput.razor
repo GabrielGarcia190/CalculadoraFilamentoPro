@@ -2,7 +2,8 @@
 
     <i class="bi bi-link-45deg"></i>
 
-    <input @bind="Value"
+    <input value="@Value"
+           @oninput="OnInput"
            placeholder="Connection String" />
 
     @if (!string.IsNullOrWhiteSpace(Value))
@@ -25,11 +26,17 @@
     [Parameter]
     public EventCallback<string> ValueChanged { get; set; }
 
-    async Task Clear()
+    private async Task OnInput(ChangeEventArgs e)
+    {
+        Value = e.Value?.ToString() ?? "";
+
+        await ValueChanged.InvokeAsync(Value);
+    }
+
+    private async Task Clear()
     {
         Value = "";
 
         await ValueChanged.InvokeAsync(Value);
     }
-
 }

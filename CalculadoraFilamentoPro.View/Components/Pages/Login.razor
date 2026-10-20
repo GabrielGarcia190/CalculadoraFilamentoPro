@@ -1,0 +1,102 @@
+﻿@page "/login"
+
+<div class="login-page">
+
+    <div class="login-container">
+
+        <div class="logo-box">
+            <div class="logo">
+                <i class="bi bi-box"></i>
+            </div>
+
+            <h1>
+                Print3D
+                <span>Calcs Pro</span>
+            </h1>
+
+            <div class="subtitle">
+                <span class="status-dot"></span>
+                ACESSO AO SISTEMA
+            </div>
+        </div>
+
+        <section class="login-card">
+
+            <div class="field">
+
+                <label>E-MAIL CORPORATIVO</label>
+
+                <div class="input-box">
+
+                    <i class="bi bi-envelope"></i>
+
+                    <input type="email"
+                           @bind="Email"
+                           placeholder="nome@empresa.com" />
+
+                </div>
+
+            </div>
+
+            <div class="field">
+
+                <label>SENHA</label>
+
+                <div class="input-box">
+
+                    <i class="bi bi-lock"></i>
+
+                    <input type="@(MostrarSenha ? "text" : "password")"
+                           @bind="Senha"
+                           placeholder="••••••••••••" />
+
+                    <button class="show-password"
+                            @onclick="AlternarSenha"
+                            type="button">
+
+                        <i class="bi @(MostrarSenha ? "bi-eye-slash" : "bi-eye")"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="login-options">
+
+                <label class="remember">
+
+                    <input type="checkbox"
+                           @bind="LembrarUsuario" />
+
+                    <span>Lembrar de mim</span>
+
+                </label>
+
+                <button class="forgot-password"
+                        type="button">
+
+                    Esqueceu a senha?
+
+                </button>
+
+            </div>
+
+            <button class="login-button"
+                    @onclick="Entrar">
+
+                Entrar no Sistema
+
+                <i class="bi bi-arrow-right"></i>
+
+            </button>
+
+        </section>
+
+        <div class="footer-text">
+            CALCULADORA INDUSTRIAL DE MANUFATURA ADITIVA • v2.4
+        </div>
+
+    </div>
+
+</div>

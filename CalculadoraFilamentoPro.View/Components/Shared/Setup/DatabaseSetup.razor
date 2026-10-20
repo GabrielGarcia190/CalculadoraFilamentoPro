@@ -70,28 +70,7 @@
                 <ConnectionStringInput 
                     @bind-Value="ConnectionString" />
 
-
-                <div class="setup-actions">
-
-                    <button class="btn-escuro"
-                            @onclick="Cancel">
-
-                        Cancelar
-
-                    </button>
-
-
-                    <button class="btn-laranja"
-                            disabled="@(!CanConfirm)"
-                            @onclick="ConfirmAsync">
-
-                        Confirmar
-
-                    </button>
-
-                </div>
-
-
+                    
                 <div class="connection-help">
 
                     <i class="bi bi-info-circle"></i>
@@ -116,6 +95,25 @@
                     </div>
 
                 </div>
+
+                <div class="setup-actions">
+
+                    <button class="btn-escuro"
+                            @onclick="Cancel">
+
+                        Cancelar
+
+                    </button>
+
+
+      <button class="btn-laranja"
+        @onclick="ConfirmAsync">
+    Confirmar
+</button>
+
+                </div>
+
+
 
 
             </div>

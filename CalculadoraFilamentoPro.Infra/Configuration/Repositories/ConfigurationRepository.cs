@@ -1,8 +1,6 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿using CalculadoraFilamentoPro.Domain.Configurations.Entities;
 using CalculadoraFilamentoPro.Domain.Configurations.Repositories;
-using CalculadoraFilamentoPro.Domain.Configurations.Results;
-using CalculadoraFilamentoPro.Domain.Configurations.ValueObjects;
+using System.Text.Json;
 
 namespace CalculadoraFilamentoPro.Infra.Configuration.Repositories;
 
@@ -10,55 +8,66 @@ public class ConfigurationRepository : IConfigurationRepository
 {
     private readonly string _configurationFile;
 
+    public ApplicationConfiguration Configuration { get; private set; } = new();
+
     public ConfigurationRepository()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        _configurationFile = Path.Combine(appData, "CalculadoraFilamentoPro", "database.json");
+        var directory = Path.Combine(appData, "CalculadoraFilamentoPro");
+
+        _configurationFile = Path.Combine(directory, "configuration.json");
     }
 
-    public async Task SaveConnectionStringAsync(DataBaseConnection connection)
+    public async Task<ApplicationConfiguration> GetConfigurationAsync()
     {
-        var directory = Path.GetDirectoryName(_configurationFile);
+        if (!File.Exists(_configurationFile))
+            return new ApplicationConfiguration();
 
-        if (!string.IsNullOrWhiteSpace(directory))
-            Directory.CreateDirectory(directory);
-
-        var configuration = new ConfigurationResult
+        try
         {
-            Provider = connection.Provider,
-            ConnectionString = connection.ConnectionString
-        };
+            var json = await File.ReadAllTextAsync(_configurationFile);
 
-        var options = new JsonSerializerOptions
+            var configuration = JsonSerializer.Deserialize<ApplicationConfiguration>(json, JsonOptions());
+
+            return configuration ?? new ApplicationConfiguration();
+        }
+        catch
         {
-            WriteIndented = true
-        };
+            return new ApplicationConfiguration();
+        }
+    }
 
-        options.Converters.Add(new JsonStringEnumConverter());
+    public async Task SaveConfigurationAsync(ApplicationConfiguration configuration)
+    {
+        var directory = Path.GetDirectoryName(_configurationFile)!;
 
-        var json = JsonSerializer.Serialize(configuration, options);
+        Directory.CreateDirectory(directory);
+
+        var json = JsonSerializer.Serialize(configuration, JsonOptions());
 
         await File.WriteAllTextAsync(_configurationFile, json);
     }
 
-    public async Task<DataBaseConnection?> GetConnectionStringAsync()
+    private static JsonSerializerOptions JsonOptions()
+    {
+        return new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        };
+    }
+
+    public void Load()
     {
         if (!File.Exists(_configurationFile))
-            return null;
+        {
+            Configuration = new ApplicationConfiguration();
+            return;
+        }
 
-        var options = new JsonSerializerOptions();
+        var json =  File.ReadAllText(_configurationFile);
 
-        options.Converters.Add(new JsonStringEnumConverter());
-
-        var json = await File.ReadAllTextAsync(_configurationFile);
-
-        var configuration = JsonSerializer.Deserialize<ConfigurationResult>(json, options);
-
-        if (configuration == null) return null;
-
-        if (string.IsNullOrWhiteSpace(configuration.ConnectionString)) return null;
-
-        return new DataBaseConnection(configuration.Provider, configuration.ConnectionString);
+        Configuration = JsonSerializer.Deserialize<ApplicationConfiguration>(json) ?? new ApplicationConfiguration();
     }
 }

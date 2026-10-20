@@ -140,20 +140,13 @@
     }
 
 /* Additional layout rules for provider selection and actions */
+/* providers presented vertically and occupy available width */
 .providers-grid {
     display: flex;
+    flex-direction: column;
     gap: 12px;
-    flex-wrap: nowrap;
-}
-
-.provider-button {
-    all: unset;
-    cursor: pointer;
-    display: inline-block;
     width: 100%;
 }
-
-.providers-grid > .provider-button { width: 50%; }
 
 .connection-header, .connection-help { margin-top: 8px; }
 

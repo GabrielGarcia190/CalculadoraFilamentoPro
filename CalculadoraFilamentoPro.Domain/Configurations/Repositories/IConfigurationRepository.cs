@@ -1,10 +1,14 @@
-﻿using CalculadoraFilamentoPro.Domain.Configurations.ValueObjects;
+﻿using CalculadoraFilamentoPro.Domain.Configurations. Entities;
 
 namespace CalculadoraFilamentoPro.Domain.Configurations.Repositories;
 
 public interface IConfigurationRepository
 {
-    Task SaveConnectionStringAsync(DataBaseConnection connectionString);
+    ApplicationConfiguration Configuration { get; }
 
-    Task<DataBaseConnection?> GetConnectionStringAsync();
+    Task<ApplicationConfiguration> GetConfigurationAsync();
+
+    Task SaveConfigurationAsync(ApplicationConfiguration configuration);
+
+    void Load();
 }

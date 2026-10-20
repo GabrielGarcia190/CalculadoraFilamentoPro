@@ -1,46 +1,39 @@
-﻿using CalculadoraFilamentoPro.Domain.Configurations.Enums;
-using CalculadoraFilamentoPro.Domain.Configurations.Repositories;
+﻿using CalculadoraFilamentoPro.Domain.Configurations.Entities;
+using CalculadoraFilamentoPro.Domain.Configurations.Enums;
 using CalculadoraFilamentoPro.Ioc.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CalculadoraFilamentoPro.Infra.Shared.Persistence
 {
     public class AppDbContextFactory
     {
-        private readonly IConfigurationRepository _repository;
+        private readonly ApplicationConfiguration _configuration;
 
-        public AppDbContextFactory(IConfigurationRepository repository)
-            => _repository = repository;
+        public AppDbContextFactory(ApplicationConfiguration configuration)
+            => _configuration = configuration;
 
-        public async Task<AppDbContext> CreateAsync()
+        public DbContextOptions<AppDbContext> CreateOptions()
         {
-            var configuration = await _repository.GetConnectionStringAsync();
-
-            if (configuration == null)
+            if (_configuration.Database is null)
                 throw new InvalidOperationException("Banco não configurado.");
 
             var builder = new DbContextOptionsBuilder<AppDbContext>();
 
-            switch (configuration.Provider)
+            switch (_configuration?.Database?.Provider)
             {
                 case EDatabaseProvider.SQLite:
-                    builder.UseSqlite(configuration.ConnectionString);
+                    builder.UseSqlite(_configuration.Database.ConnectionString);
                     break;
 
                 case EDatabaseProvider.PostgreSql:
-                    builder.UseNpgsql(configuration.ConnectionString);
+                    builder.UseNpgsql(_configuration.Database.ConnectionString);
                     break;
 
                 default:
-                    throw new NotSupportedException(
-                        $"Banco {configuration.Provider} não suportado."
-                    );
+                    throw new NotSupportedException("Banco não suportado.");
             }
 
-            return new AppDbContext(builder.Options);
+            return builder.Options;
         }
     }
 }

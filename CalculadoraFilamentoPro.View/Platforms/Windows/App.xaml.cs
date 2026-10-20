@@ -39,16 +39,30 @@ namespace CalculadoraFilamentoPro.WinUI
                     var appWindow = AppWindow.GetFromWindowId(windowId);
                     if (appWindow != null)
                     {
-                        var minSize = new SizeInt32(1800, 1000);
-                        // Resize to the minimum as a fallback; enforcing min size may require Win32 message handling.
-                        appWindow.Resize(minSize);
+                        try
+                        {
+                            // Try to cover the full display area (simulate fullscreen)
+                            var display = DisplayArea.GetFromWindowId(windowId, DisplayAreaFallback.Primary);
+                            if (display != null)
+                            {
+                                var bounds = display.WorkArea;
+                                var rect = new RectInt32(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+                                appWindow.MoveAndResize(rect);
+                            }
+                        }
+                        catch
+                        {
+                            // Fallback to minimum size if move/resize fails
+                            var minSize = new SizeInt32(1800, 1000);
+                            appWindow.Resize(minSize);
+                        }
                         try
                         {
                             var presenter = appWindow.Presenter as OverlappedPresenter;
                             if (presenter != null)
                             {
-                                // Attempt to prevent smaller resizing by disabling sizing edges if API available
-                                presenter.IsResizable = true; // keep resizable but we already set initial size
+                                // Keep resizable; additional presenter options could be applied here
+                                presenter.IsResizable = true;
                             }
                         }
                         catch

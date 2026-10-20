@@ -1,9 +1,10 @@
-﻿namespace CalculadoraFilamentoPro.App.Interfaces.Configurations
-{
-    public interface IConfigurationService
-    {
-        Task<bool> DatabaseConfiguredAsync();
+﻿using CalculadoraFilamentoPro.Domain.Configurations.ValueObjects;
 
-        Task ConfigureDataBase(string connectionString);
-    }
+namespace CalculadoraFilamentoPro.App.Interfaces.Configurations;
+
+public interface IConfigurationService
+{
+    Task<bool> DatabaseConfiguredAsync();
+
+    Task ConfigureDataBase(DataBaseConnection connectionString);
 }
