@@ -15,7 +15,9 @@ namespace CalculadoraFilamentoPro.View
             var services = IPlatformApplication.Current?.Services;
 
             if (services is not null)
-                ExecuteDatabaseMigrationAsync(services).GetAwaiter().GetResult();
+                Task.Run(() => ExecuteDatabaseMigrationAsync(services))
+                    .GetAwaiter()
+                    .GetResult();
 
             return new Window(new MainPage()) { Title = "CalculadoraFilamentoPro" };
         }

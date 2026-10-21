@@ -1,0 +1,118 @@
+name: Windows Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+env:
+  PROJECT: CalculadoraFilamentoPro.View/CalculadoraFilamentoPro.View.csproj
+  TARGET_FRAMEWORK: net10.0-windows10.0.19041.0
+  RUNTIME: win-x64
+  PUBLISH_DIR: ${{ github.workspace }}/artifacts/publish
+  INSTALLER_DIR: ${{ github.workspace }}/artifacts/installer
+
+jobs:
+  publish-windows:
+    name: Publish Windows installer
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout release source
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Install .NET MAUI workload
+        shell: pwsh
+        run: dotnet workload install maui --skip-manifest-update
+
+      - name: Restore NuGet packages
+        shell: pwsh
+        run: dotnet restore $env:PROJECT -p:TargetFramework=$env:TARGET_FRAMEWORK
+
+      - name: Resolve release version
+        id: version
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          $version = $env:RELEASE_TAG -replace '^[vV]', ''
+          $version = ($version -split '\+')[0]
+          $parts = $version -split '\.'
+          $numericParts = @()
+          foreach ($part in $parts) {
+            if ($part -match '^\d+') {
+              $numericParts += $Matches[0]
+            }
+          }
+          while ($numericParts.Count -lt 3) { $numericParts += '0' }
+          $installerVersion = ($numericParts | Select-Object -First 3) -join '.'
+          if ($installerVersion -notmatch '^\d+\.\d+\.\d+$') {
+            throw "Release tag '$($env:RELEASE_TAG)' does not contain a valid numeric version."
+          }
+          "value=$installerVersion" >> $env:GITHUB_OUTPUT
+          "Installer version: $installerVersion"
+
+      - name: Publish Windows application
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:PUBLISH_DIR | Out-Null
+          dotnet publish $env:PROJECT `
+            --configuration Release `
+            --framework $env:TARGET_FRAMEWORK `
+            --runtime $env:RUNTIME `
+            --self-contained true `
+            --no-restore `
+            --output $env:PUBLISH_DIR `
+            -p:WindowsPackageType=None `
+            -p:WindowsAppSDKSelfContained=true `
+            -p:ApplicationDisplayVersion=$env:VERSION
+
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --no-progress --yes
+
+      - name: Build installer
+        shell: pwsh
+        env:
+          VERSION: ${{ steps.version.outputs.value }}
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:INSTALLER_DIR | Out-Null
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          if (-not (Test-Path $iscc)) {
+            throw "Inno Setup compiler not found at $iscc"
+          }
+          & $iscc `
+            "/DAppVersion=$env:VERSION" `
+            "/DPublishDir=$env:PUBLISH_DIR" `
+            "$env:GITHUB_WORKSPACE\Installer\setup.iss"
+          if ($LASTEXITCODE -ne 0) {
+            throw "Inno Setup failed with exit code $LASTEXITCODE"
+          }
+
+      - name: Verify installer
+        shell: pwsh
+        run: |
+          $installer = Join-Path $env:INSTALLER_DIR 'CalculadoraFilamentoProSetup.exe'
+          if (-not (Test-Path $installer)) {
+            throw "Installer was not generated: $installer"
+          }
+          Get-Item $installer | Select-Object FullName, Length
+
+      - name: Upload installer to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: artifacts/installer/CalculadoraFilamentoProSetup.exe
+          fail_on_unmatched_files: true
