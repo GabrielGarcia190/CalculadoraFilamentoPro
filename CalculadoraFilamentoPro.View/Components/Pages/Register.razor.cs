@@ -1,23 +1,38 @@
+using CalculadoraFilamentoPro.App.User.Interfaces;
+using Microsoft.AspNetCore.Components;
+
 namespace CalculadoraFilamentoPro.Components.Pages
 {
     public partial class Register
     {
-        private string Name = string.Empty;
+        [Inject]
+        private IUserService UserService { get; set; } = default!;
+
+        [Inject]
+        private NavigationManager Navigation { get; set; } = default!;
+
+        private string UserName = string.Empty;
 
         private string Password = string.Empty;
 
         private string? Error;
 
-        private Task CreateUser()
+        private async Task CreateUser()
         {
-            // Implementar
-
-            return Task.CompletedTask;
+            try
+            {
+                await UserService.CreateUser(UserName, Password);
+                Navigation.NavigateTo("/login");
+            }
+            catch (Exception ex)
+            {
+                Error = ex.Message;
+            }
         }
 
         private void Back()
         {
-            // NavigationManager.NavigateTo("/login");
+            Navigation.NavigateTo("/login");
         }
     }
 }

@@ -16,6 +16,7 @@ namespace CalculadoraFilamentoPro
                 });
 
             builder.Services.RegisterDependencies();
+            builder.Services.AddSingleton<Infrastructure.DatabaseMigrationHostedService>();
             builder.Services.AddMauiBlazorWebView();
 
 #if DEBUG

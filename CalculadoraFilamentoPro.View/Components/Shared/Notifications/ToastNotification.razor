@@ -1,0 +1,78 @@
+@if (Visible)
+{
+    <div class="toast-notification @CssClass" role="alert">
+        <div class="toast-icon">
+            <i class="bi @Icon"></i>
+        </div>
+
+        <div class="toast-content">
+            <strong>@Title</strong>
+            <span>@Message</span>
+        </div>
+
+        <button class="toast-close" type="button" aria-label="Fechar notificação" @onclick="CloseAsync">
+            <i class="bi bi-x"></i>
+        </button>
+    </div>
+}
+
+@code {
+    private CancellationTokenSource? _notificationCancellation;
+    private bool Visible;
+    private string Message = string.Empty;
+    private NotificationKind Kind;
+
+    [Parameter]
+    public int Duration { get; set; } = 5000;
+
+    private string Title => Kind == NotificationKind.Success ? "Sucesso" : "Erro";
+
+    private string Icon => Kind == NotificationKind.Success
+        ? "bi-check-circle-fill"
+        : "bi-exclamation-triangle-fill";
+
+    private string CssClass => Kind == NotificationKind.Success
+        ? "toast-success"
+        : "toast-error";
+
+    public Task ShowSuccess(string message) => ShowAsync(message, NotificationKind.Success);
+
+    public Task ShowError(string message) => ShowAsync(message, NotificationKind.Error);
+
+    private async Task ShowAsync(string message, NotificationKind kind)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+            return;
+
+        _notificationCancellation?.Cancel();
+        _notificationCancellation?.Dispose();
+        _notificationCancellation = new CancellationTokenSource();
+
+        Message = message;
+        Kind = kind;
+        Visible = true;
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            await Task.Delay(Duration, _notificationCancellation.Token);
+            await CloseAsync();
+        }
+        catch (TaskCanceledException)
+        {
+        }
+    }
+
+    private async Task CloseAsync()
+    {
+        _notificationCancellation?.Cancel();
+        Visible = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private enum NotificationKind
+    {
+        Success,
+        Error
+    }
+}

@@ -2,6 +2,7 @@
 using CalculadoraFilamentoPro.Domain.Authentication.Results;
 using CalculadoraFilamentoPro.Domain.Configurations.Repositories;
 using CalculadoraFilamentoPro.Domain.Users.Repositories;
+using CalculadoraFilamentoPro.App.Users.Security;
 
 namespace CalculadoraFilamentoPro.App.Configurations.Authentication;
 
@@ -28,12 +29,12 @@ public class AuthenticationService : IAuthenticationService
         return user is not null && user.SessionActive;
     }
 
-    public async Task<LoginResult> LoginAsync(string email)
+    public async Task<LoginResult> LoginAsync(string userName, string password)
     {
-        var user = await _userRepository.FindByEmailAsync(email);
+        var user = await _userRepository.FindByUserNameAsync(userName);
 
-        if (user is null)
-            return new LoginResult { Error = "Usuário não encontrado." };
+        if (user is null || !PasswordHasher.Verify(password, user.PasswordHash))
+            return new LoginResult { Error = "Nome de usuário ou senha inválidos." };
 
         user.Login();
 
@@ -45,7 +46,7 @@ public class AuthenticationService : IAuthenticationService
 
         await _configurationRepository.SaveConfigurationAsync(configuration);
 
-        return new LoginResult { User = user };
+        return new LoginResult { Success = true, User = user };
     }
 
     public async Task LogoutAsync()

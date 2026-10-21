@@ -4,7 +4,9 @@ namespace CalculadoraFilamentoPro.Domain.Users.Repositories;
 
 public interface IUserRepository
 {
-    Task<User?> FindByEmailAsync(string email);
+    Task AddAsync(User user);
+
+    Task<User?> FindByUserNameAsync(string userName);
 
     Task<User?> GetByIdAsync(Guid id);
 

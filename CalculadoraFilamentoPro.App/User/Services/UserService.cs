@@ -1,4 +1,5 @@
-ï»¿using CalculadoraFilamentoPro.App.User.Interfaces;
+using CalculadoraFilamentoPro.App.User.Interfaces;
+using CalculadoraFilamentoPro.App.Users.Security;
 using CalculadoraFilamentoPro.Domain.Configurations.Repositories;
 using CalculadoraFilamentoPro.Domain.Users.Repositories;
 
@@ -15,14 +16,28 @@ public class UserService : IUserService
         _configurationRepository = configurationRepository;
     }
 
+    public async Task CreateUser(string userName, string password)
+    {
+        if (string.IsNullOrWhiteSpace(password) || password.Length < 8)
+            throw new ArgumentException("A senha deve possuir pelo menos 8 caracteres.", nameof(password));
+
+        if (await _userRepository.FindByUserNameAsync(userName) is not null)
+            throw new InvalidOperationException("Já existe um usuário com esse nome.");
+
+        var user = new CalculadoraFilamentoPro.Domain.Users.Entities.User(userName, PasswordHasher.Hash(password));
+
+        await _userRepository.AddAsync(user);
+    }
+
     public async Task<bool> IsUserAuthenticated()
     {
         var configuration = await _configurationRepository.GetConfigurationAsync();
 
-        if (configuration.LastUserId is null) return false;
+        if (configuration.LastUserId is null)
+            return false;
 
-        var user = await _userRepository.GetByIdAsync(configuration.LastUserId ?? Guid.Empty);
+        var user = await _userRepository.GetByIdAsync(configuration.LastUserId.Value);
 
-        return user is not null;
+        return user is not null && user.SessionActive;
     }
 }

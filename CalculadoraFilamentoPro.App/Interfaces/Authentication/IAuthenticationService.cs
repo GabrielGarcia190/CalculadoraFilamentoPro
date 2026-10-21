@@ -4,7 +4,7 @@ namespace CalculadoraFilamentoPro.App.Interfaces.Authentication;
 
 public interface IAuthenticationService
 {
-    Task<LoginResult> LoginAsync(string email);
+    Task<LoginResult> LoginAsync(string email, string password);
 
     Task LogoutAsync();
 

@@ -1,5 +1,7 @@
 ﻿@page "/login"
 
+<ToastNotification @ref="Toast" />
+
 <div class="login-page">
 
     <div class="login-container">
@@ -24,15 +26,15 @@
 
             <div class="field">
 
-                <label>E-MAIL CORPORATIVO</label>
+                <label>NOME DE USUÁRIO</label>
 
                 <div class="input-box">
 
-                    <i class="bi bi-envelope"></i>
+                    <i class="bi bi-person"></i>
 
-                    <input type="email"
-                           @bind="Email"
-                           placeholder="nome@empresa.com" />
+                    <input type="text"
+                           @bind="UserName"
+                           placeholder="Digite seu nome de usuário" />
 
                 </div>
 
