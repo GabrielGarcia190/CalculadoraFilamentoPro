@@ -15,6 +15,8 @@ namespace CalculadoraFilamentoPro.Components.Shared.Setup
 
         [Inject]
         public IConfigurationService Config { get; set; } = default!;
+        [Inject]
+        NavigationManager Navigation { get; set; } = default!;
 
         private bool CanConfirm => !string.IsNullOrWhiteSpace(ConnectionString);
 
@@ -33,7 +35,7 @@ namespace CalculadoraFilamentoPro.Components.Shared.Setup
                     await Config.ConfigureDataBase(dataBaseConnection);
                 }
 
-                StatusMessage = "Configuração aplicada.";
+                Navigation.NavigateTo("/login");
             }
             catch (Exception ex)
             {

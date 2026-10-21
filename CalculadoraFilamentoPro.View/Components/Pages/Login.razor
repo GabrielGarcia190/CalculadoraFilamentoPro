@@ -51,7 +51,7 @@
                            placeholder="••••••••••••" />
 
                     <button class="show-password"
-                            @onclick="AlternarSenha"
+                            @onclick="ShowPassword"
                             type="button">
 
                         <i class="bi @(MostrarSenha ? "bi-eye-slash" : "bi-eye")"></i>
@@ -74,16 +74,17 @@
                 </label>
 
                 <button class="forgot-password"
+                @onclick="SignUp"
                         type="button">
 
-                    Esqueceu a senha?
+                  Cadastrar-se
 
                 </button>
 
             </div>
 
             <button class="login-button"
-                    @onclick="Entrar">
+                    @onclick="SignIn">
 
                 Entrar no Sistema
 

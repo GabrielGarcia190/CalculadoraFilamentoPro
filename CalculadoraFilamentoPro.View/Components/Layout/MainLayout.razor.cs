@@ -12,15 +12,26 @@ namespace CalculadoraFilamentoPro.Components.Layout
         [Inject]
         private IAuthenticationService Authentication { get; set; } = default!;
 
+        [Inject]
+        protected NavigationManager Navigation { get; set; } = default!;
 
         protected bool Configurado;
         protected bool Logado;
+        protected bool MenuAberto { get; set; } = true;
 
+        protected void AlternarMenu() => MenuAberto = !MenuAberto;
 
         protected override async Task OnInitializedAsync()
         {
             Configurado = await Config.DatabaseConfiguredAsync();
+
+            if (!Configurado)
+                return;
+
             Logado = await Authentication.IsAuthenticatedAsync();
+
+            if (!Logado)
+                Navigation.NavigateTo("/login");
         }
     }
 }

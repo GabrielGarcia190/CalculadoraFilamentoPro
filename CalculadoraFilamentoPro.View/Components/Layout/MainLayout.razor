@@ -5,15 +5,10 @@
 {
     <DatabaseSetup />
 }
-else if (!Logado)
+else if (Logado)
 {
-    <Login />
-}
-else
-{
-
     <div class="app">
-        <aside class="sidebar @(menuAberto ? "" : "fechado")">
+        <aside class="sidebar @(MenuAberto ? "" : "fechado")">
             <div class="sidebar-topo">
                 <i class="bi bi-robot laranja-txt"></i>
                 <span class="mono">ENGENHARIA CAM</span>
@@ -59,10 +54,4 @@ else
             </footer>
         </div>
     </div>
-
-    @code {
-    bool menuAberto = true;
-    void AlternarMenu() => menuAberto = !menuAberto;
-}
-
 }

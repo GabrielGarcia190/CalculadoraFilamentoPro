@@ -13,7 +13,7 @@ namespace CalculadoraFilamentoPro.Components.Pages
         private NavigationManager Navigation { get; set; } = default!;
 
         private string Email = string.Empty;
-        
+
         private string Senha = string.Empty;
 
         private bool MostrarSenha;
@@ -24,7 +24,7 @@ namespace CalculadoraFilamentoPro.Components.Pages
 
         private string Erro;
 
-        private async Task Entrar()
+        private async Task SignIn()
         {
             var result = await AuthenticationService.LoginAsync(Email);
 
@@ -34,12 +34,13 @@ namespace CalculadoraFilamentoPro.Components.Pages
                 return;
             }
 
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/home");
         }
 
-        private void AlternarSenha()
-        {
-            MostrarSenha = !MostrarSenha;
-        }
+        private void ShowPassword()
+            => MostrarSenha = !MostrarSenha;
+
+        private void SignUp()
+            => Navigation.NavigateTo("/register");
     }
 }
