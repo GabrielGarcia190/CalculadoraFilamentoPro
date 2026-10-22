@@ -19,6 +19,9 @@ public class AppDbContext : DbContext
         if (Database.ProviderName == "Microsoft.EntityFrameworkCore.Sqlite")
         {
             user.Property(entity => entity.Id)
+                .HasConversion(
+                    id => id.ToString("D"),
+                    value => Guid.Parse(value))
                 .HasDefaultValueSql("lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-4' || substr(lower(hex(randomblob(2))), 2) || '-' || substr('89ab', abs(random()) % 4 + 1, 1) || substr(lower(hex(randomblob(2))), 2) || '-' || lower(hex(randomblob(6)))");
             user.Property(entity => entity.CreatedAt)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP");

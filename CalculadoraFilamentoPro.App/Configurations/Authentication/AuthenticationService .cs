@@ -24,29 +24,36 @@ public class AuthenticationService : IAuthenticationService
 
         if (configuration.LastUserId is null) return false;
 
-        var user = await _userRepository.GetByIdAsync(configuration.LastUserId.Value); 
+        var user = await _userRepository.GetByIdAsync(configuration.LastUserId.Value);
 
         return user is not null && user.SessionActive;
     }
 
     public async Task<LoginResult> LoginAsync(string userName, string password)
     {
-        var user = await _userRepository.FindByUserNameAsync(userName);
+        try
+        {
+            var user = await _userRepository.FindByUserNameAsync(userName);
 
-        if (user is null || !PasswordHasher.Verify(password, user.PasswordHash))
-            return new LoginResult { Error = "Nome de usuário ou senha inválidos." };
+            if (user is null || !PasswordHasher.Verify(password, user.PasswordHash))
+                return new LoginResult { Error = "Nome de usuário ou senha inválidos." };
 
-        user.Login();
+            user.Login();
 
-        await _userRepository.SaveAsync(user);
+            await _userRepository.SaveAsync(user);
 
-        var configuration = await _configurationRepository.GetConfigurationAsync();
+            var configuration = await _configurationRepository.GetConfigurationAsync();
 
-        configuration.Login(user.Id, true);
+            configuration.Login(user.Id, true);
 
-        await _configurationRepository.SaveConfigurationAsync(configuration);
+            await _configurationRepository.SaveConfigurationAsync(configuration);
 
-        return new LoginResult { Success = true, User = user };
+            return new LoginResult { Success = true, User = user };
+        }
+        catch (Exception ex)
+        {
+            return new LoginResult { Error = ex.Message };
+        }
     }
 
     public async Task LogoutAsync()
