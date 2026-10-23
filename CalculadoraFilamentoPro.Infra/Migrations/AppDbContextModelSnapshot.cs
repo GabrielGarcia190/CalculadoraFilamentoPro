@@ -17,9 +17,65 @@ namespace CalculadoraFilamentoPro.Infra.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.13");
 
-            modelBuilder.Entity("CalculadoraFilamentoPro.Domain.Users.Entities.User", b =>
+            modelBuilder.Entity("CalculadoraFilamentoPro.Domain.Filaments.Entities.Filament", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Brand")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Color")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("CostPrice")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("OriginalWeight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("UsedWeight")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Filaments");
+                });
+
+            modelBuilder.Entity("CalculadoraFilamentoPro.Domain.Users.Entities.User", b =>
+                {
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")
                         .HasDefaultValueSql("lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-4' || substr(lower(hex(randomblob(2))), 2) || '-' || substr('89ab', abs(random()) % 4 + 1, 1) || substr(lower(hex(randomblob(2))), 2) || '-' || lower(hex(randomblob(6)))");
@@ -48,6 +104,22 @@ namespace CalculadoraFilamentoPro.Infra.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("CalculadoraFilamentoPro.Domain.Filaments.Entities.Filament", b =>
+                {
+                    b.HasOne("CalculadoraFilamentoPro.Domain.Users.Entities.User", "User")
+                        .WithMany("Filaments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("CalculadoraFilamentoPro.Domain.Users.Entities.User", b =>
+                {
+                    b.Navigation("Filaments");
                 });
 #pragma warning restore 612, 618
         }

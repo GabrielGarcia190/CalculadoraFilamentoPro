@@ -1,6 +1,10 @@
 name: Windows Release
 
 on:
+  push:
+    branches:
+      - '**'
+  workflow_dispatch:
   release:
     types: [published]
 
@@ -20,10 +24,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout release source
+      - name: Checkout source
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
+          ref: ${{ github.event.release.tag_name || github.ref }}
           fetch-depth: 0
 
       - name: Setup .NET 10
@@ -45,19 +49,24 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
-          $version = $env:RELEASE_TAG -replace '^[vV]', ''
-          $version = ($version -split '\+')[0]
-          $parts = $version -split '\.'
-          $numericParts = @()
-          foreach ($part in $parts) {
-            if ($part -match '^\d+') {
-              $numericParts += $Matches[0]
-            }
+          if ([string]::IsNullOrWhiteSpace($env:RELEASE_TAG)) {
+            $installerVersion = "1.0.$env:GITHUB_RUN_NUMBER"
           }
-          while ($numericParts.Count -lt 3) { $numericParts += '0' }
-          $installerVersion = ($numericParts | Select-Object -First 3) -join '.'
+          else {
+            $version = $env:RELEASE_TAG -replace '^[vV]', ''
+            $version = ($version -split '\+')[0]
+            $parts = $version -split '\.'
+            $numericParts = @()
+            foreach ($part in $parts) {
+              if ($part -match '^\d+') {
+                $numericParts += $Matches[0]
+              }
+            }
+            while ($numericParts.Count -lt 3) { $numericParts += '0' }
+            $installerVersion = ($numericParts | Select-Object -First 3) -join '.'
+          }
           if ($installerVersion -notmatch '^\d+\.\d+\.\d+$') {
-            throw "Release tag '$($env:RELEASE_TAG)' does not contain a valid numeric version."
+            throw "Version '$installerVersion' is not a valid numeric installer version."
           }
           "value=$installerVersion" >> $env:GITHUB_OUTPUT
           "Installer version: $installerVersion"
@@ -111,8 +120,17 @@ jobs:
           Get-Item $installer | Select-Object FullName, Length
 
       - name: Upload installer to GitHub Release
+        if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.release.tag_name }}
           files: artifacts/installer/CalculadoraFilamentoProSetup.exe
           fail_on_unmatched_files: true
+
+      - name: Upload installer as workflow artifact
+        if: github.event_name != 'release'
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer-${{ github.run_number }}
+          path: artifacts/installer/CalculadoraFilamentoProSetup.exe
+          if-no-files-found: error

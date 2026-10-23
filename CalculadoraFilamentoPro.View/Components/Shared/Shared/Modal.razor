@@ -1,0 +1,53 @@
+﻿@if (Visible)
+{
+    <div class="modal-overlay"
+         @onclick="Close">
+
+        <div class="modal-window"
+             @onclick:stopPropagation>
+
+            <div class="modal-header">
+
+                <div class="modal-header-content">
+
+                    @if (!string.IsNullOrWhiteSpace(Icon))
+                    {
+                        <div class="modal-icon">
+
+                            <i class="@Icon"></i>
+
+                        </div>
+                    }
+
+                    <div>
+
+                        <h2>@Title</h2>
+
+                        @if (!string.IsNullOrWhiteSpace(Subtitle))
+                        {
+                            <span>@Subtitle</span>
+                        }
+
+                    </div>
+
+                </div>
+
+                <button class="close-button"
+                        @onclick="Close">
+
+                    <i class="bi bi-x-lg"></i>
+
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                @ChildContent
+
+            </div>
+
+        </div>
+
+    </div>
+}

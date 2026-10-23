@@ -1,43 +1,58 @@
-﻿<div class="filament-card">
+﻿<div class="filament-card @MaterialClass">
 
     <div class="card-header">
 
-        <div class="material-badge @MaterialClass">
-            @Material
+        <div class="header-left">
+
+            <div class="material-badge">
+                @Material
+            </div>
+
+            <span class="filament-code">
+                @Codigo
+            </span>
+
         </div>
 
         <div class="status @StatusClass">
+
             <i class="bi bi-circle-fill"></i>
+
             @Status
+
         </div>
 
     </div>
 
-    <div class="filament-name">
-        @Nome
-    </div>
+    <div class="card-body">
 
-    <div class="brand">
-        @Marca
-    </div>
+        <div class="preview @MaterialClass">
 
-    <div class="weight-section">
-
-        <div class="weight-info">
-
-            <span>Disponível</span>
-
-            <strong>@PesoAtual g</strong>
+            <i class="bi bi-circle-fill"></i>
 
         </div>
 
-        <div class="weight-info">
+        <div class="info">
 
-            <span>Original</span>
+            <h3>@Nome</h3>
 
-            <strong>@PesoOriginal g</strong>
+            <span class="brand">
+                @Marca
+            </span>
+
+            <span class="color-name">
+                @Cor
+            </span>
 
         </div>
+
+    </div>
+
+    <div class="stock-header">
+
+        <span>ESTOQUE</span>
+
+        <strong>@PesoAtualFormatado / @PesoOriginalFormatado</strong>
 
     </div>
 
@@ -49,82 +64,67 @@
 
     </div>
 
-    <div class="percentage">
-        @Percentual%
-    </div>
-
     <div class="details">
 
         <div class="item">
 
-            <span>Valor Compra</span>
+            <span>VALOR COMPRA</span>
 
-            <strong>@ValorCompra</strong>
-
-        </div>
-
-        <div class="item">
-
-            <span>Custo / g</span>
-
-            <strong class="orange">@ValorGrama</strong>
+            <strong>@ValorCompraFormatado</strong>
 
         </div>
 
         <div class="item">
 
-            <span>Fornecedor</span>
+            <span>CUSTO / g</span>
 
-            <strong>@Fornecedor</strong>
+            <strong class="orange">
+                @ValorGramaFormatado
+            </strong>
 
         </div>
 
         <div class="item">
 
-            <span>Entrada</span>
+            <span>FORNECEDOR</span>
 
-            <strong>@DataEntrada</strong>
+            <strong>
+                @Fornecedor
+            </strong>
+
+        </div>
+
+        <div class="item">
+
+            <span>ENTRADA</span>
+
+            <strong>
+                @DataEntradaFormatada
+            </strong>
 
         </div>
 
     </div>
 
-    <button class="details-button">
+    <div class="card-footer">
 
-        <i class="bi bi-eye"></i>
+        <div>
 
-        Visualizar Detalhes
+            <small>DISPONÍVEL</small>
 
-    </button>
+            <strong>@Percentual%</strong>
+
+        </div>
+
+        <button class="details-button"
+                @onclick="VisualizarDetalhes">
+
+            <i class="bi bi-eye"></i>
+
+            Visualizar
+
+        </button>
+
+    </div>
 
 </div>
-
-@code {
-
-    [Parameter] public string Material { get; set; } = "";
-
-    [Parameter] public string MaterialClass { get; set; } = "";
-
-    [Parameter] public string Status { get; set; } = "";
-
-    [Parameter] public string StatusClass { get; set; } = "";
-
-    [Parameter] public string Nome { get; set; } = "";
-
-    [Parameter] public string Marca { get; set; } = "";
-
-    [Parameter] public int PesoAtual { get; set; }
-
-    [Parameter] public int PesoOriginal { get; set; }
-
-    [Parameter] public int Percentual { get; set; }
-
-    [Parameter] public string ValorCompra { get; set; } = "";
-
-    [Parameter] public string ValorGrama { get; set; } = "";
-
-    [Parameter] public string Fornecedor { get; set; } = "";
-
-    [Parameter] public string DataEntrada { get; set; } = "";
-
-}

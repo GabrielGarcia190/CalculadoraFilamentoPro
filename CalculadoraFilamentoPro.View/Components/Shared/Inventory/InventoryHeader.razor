@@ -29,7 +29,7 @@
 
     <div class="header-actions">
 
-        <button class="secondary">
+@*         <button class="secondary">
             <i class="bi bi-file-earmark-arrow-up"></i>
             Entrada por XML / NF-e
         </button>
@@ -37,13 +37,25 @@
         <button class="secondary">
             <i class="bi bi-download"></i>
             Exportar Balanço
-        </button>
+        </button> *@
 
-        <button class="primary">
+        <button class="primary" @onclick="AbrirModal">
             <i class="bi bi-cart-plus"></i>
             Registrar Aquisição (Nova Compra)
         </button>
 
     </div>
 
+    <Modal
+    Visible="@MostrarModal"
+    Title="Cadastrar Filamento"
+    Subtitle="Insira os dados do novo material"
+    Icon="bi bi-plus-circle"
+    OnClose="FecharModal">
+
+    <p>Conteúdo do formulário virá aqui.</p>
+
+</Modal>
+
 </div>
+

@@ -1,4 +1,5 @@
-﻿using CalculadoraFilamentoPro.Domain.Users.Entities;
+﻿using CalculadoraFilamentoPro.Domain.Filaments.Entities;
+using CalculadoraFilamentoPro.Domain.Users.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CalculadoraFilamentoPro.Ioc.Infrastructure.Persistence;
@@ -8,6 +9,7 @@ public class AppDbContext : DbContext
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<Filament> Filaments => Set<Filament>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CalculadoraFilamentoPro.Domain.Filaments.Entities;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CalculadoraFilamentoPro.Domain.Users.Entities;
@@ -47,4 +48,6 @@ public class User
 
     public void Login()
         => LastLogin = DateTime.UtcNow;
+
+    public ICollection<Filament> Filaments { get; private set; } = new List<Filament>();
 }

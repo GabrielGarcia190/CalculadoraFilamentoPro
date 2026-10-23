@@ -35,4 +35,10 @@ public partial class Inventory : ComponentBase
 
         return Task.CompletedTask;
     }
+    private Task VisualizarFilamento(Guid id)
+    {
+        Console.WriteLine(id);
+
+        return Task.CompletedTask;
+    }
 }

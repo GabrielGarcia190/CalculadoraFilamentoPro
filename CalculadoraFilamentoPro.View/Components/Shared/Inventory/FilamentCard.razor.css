@@ -1,129 +1,221 @@
 .filament-card {
-    background: #1A2235;
-    border: 1px solid #2B3449;
-    border-radius: 18px;
-    padding: 22px;
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     gap: 18px;
-    transition: .25s;
+    padding: 22px;
+    border-radius: 18px;
+    border: 1px solid #2D3750;
+    background: linear-gradient(180deg, #20283D 0%, #182134 100%);
+    transition: .25s ease;
 }
+
+    .filament-card::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: .22;
+        background: radial-gradient(circle at top right, var(--accent-color), transparent 60%);
+    }
 
     .filament-card:hover {
         transform: translateY(-5px);
-        border-color: #49556E;
-        box-shadow: 0 15px 40px rgba(0,0,0,.35);
+        box-shadow: 0 18px 45px rgba(0, 0, 0, .45);
     }
+
+    /* ---------- MATERIAL ---------- */
+
+    .filament-card.pla {
+        --accent-color: rgba(255, 195, 0, .55);
+        --preview-color: #F6C315;
+        border-color: #A67C00;
+    }
+
+    .filament-card.abs {
+        --accent-color: rgba(190, 190, 190, .35);
+        --preview-color: #C9CDD4;
+        border-color: #596273;
+    }
+
+    .filament-card.petg {
+        --accent-color: rgba(0, 174, 255, .45);
+        --preview-color: #2EA9FF;
+        border-color: #2385E0;
+    }
+
+    .filament-card.tpu {
+        --accent-color: rgba(46, 217, 114, .45);
+        --preview-color: #32D971;
+        border-color: #2EB872;
+    }
+
+/* ---------- HEADER ---------- */
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 2;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .material-badge {
-    padding: 6px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
+    background: #0F1727;
     color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .8px;
 }
 
-    .material-badge.pla {
-        background: #ff6b00;
-    }
-
-    .material-badge.petg {
-        background: #0EA5E9;
-    }
-
-    .material-badge.abs {
-        background: #9333EA;
-    }
-
-    .material-badge.tpu {
-        background: #22C55E;
-    }
+.filament-code {
+    color: #9AA8C4;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
 
 .status {
     display: flex;
     align-items: center;
     gap: 6px;
+    padding: 6px 10px;
+    border-radius: 8px;
     font-size: 12px;
     font-weight: 700;
 }
-
-    .status.ok {
-        color: #47D98A;
-    }
-
-    .status.warning {
-        color: #F7C948;
-    }
-
-    .status.critical {
-        color: #F87171;
-    }
 
     .status i {
         font-size: 8px;
     }
 
-.filament-name {
-    font-size: 22px;
-    font-weight: 800;
-    color: #EDF2FF;
-}
-
-.brand {
-    color: #A6B0C4;
-    margin-top: -12px;
-}
-
-.weight-section {
-    display: flex;
-    justify-content: space-between;
-}
-
-.weight-info {
-    display: flex;
-    flex-direction: column;
-}
-
-    .weight-info span {
-        color: #8F98AE;
-        font-size: 12px;
+    .status.ok {
+        background: rgba(61, 214, 130, .12);
+        color: #58E29E;
     }
 
-    .weight-info strong {
-        font-size: 24px;
-        color: white;
+    .status.warning {
+        background: rgba(255, 184, 0, .12);
+        color: #FFC84D;
+    }
+
+    .status.critical {
+        background: rgba(255, 88, 88, .12);
+        color: #FF7B7B;
+    }
+
+/* ---------- BODY ---------- */
+
+.card-body {
+    display: flex;
+    gap: 18px;
+    align-items: center;
+    z-index: 2;
+}
+
+.preview {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: var(--preview-color);
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 0 18px rgba(255,255,255,.18), 0 10px 25px rgba(0,0,0,.35);
+}
+
+    .preview::before {
+        content: "";
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #1B2438;
+        border: 5px solid rgba(255,255,255,.92);
+    }
+
+    .preview::after {
+        content: "";
+        position: absolute;
+        right: -4px;
+        bottom: -4px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--preview-color);
+        border: 2px solid #1A2235;
+    }
+
+.info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+    .info h3 {
+        margin: 0;
+        font-size: 26px;
+        color: #EDF2FF;
+        line-height: 1.2;
+    }
+
+.brand {
+    color: #A7B4CB;
+    font-size: 15px;
+}
+
+/* ---------- STOCK ---------- */
+
+.stock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+}
+
+    .stock-header span {
+        font-size: 12px;
+        color: #8E9AB0;
+        letter-spacing: 2px;
+        font-weight: 700;
+    }
+
+    .stock-header strong {
+        color: #EDF2FF;
+        font-size: 22px;
     }
 
 .progress {
-    height: 10px;
-    background: #2B3449;
+    height: 9px;
     border-radius: 999px;
     overflow: hidden;
+    background: #121A2C;
+    z-index: 2;
 }
 
 .progress-fill {
     height: 100%;
-    background: #FF6B00;
+    width: 0;
     border-radius: 999px;
+    background: linear-gradient(90deg, #49DA95, #5AE4AE);
+    transition: width .35s;
 }
 
-.percentage {
-    text-align: right;
-    color: #8F98AE;
-    margin-top: -10px;
-    font-size: 13px;
-}
+/* ---------- DETAILS ---------- */
 
 .details {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+    z-index: 2;
 }
 
 .item {
@@ -133,29 +225,132 @@
 }
 
     .item span {
-        color: #8F98AE;
-        font-size: 12px;
+        font-size: 11px;
+        color: #7F8BA3;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
     }
 
     .item strong {
         color: #EDF2FF;
+        font-size: 15px;
     }
 
 .orange {
-    color: #FF9D57;
+    color: #49E39F !important;
 }
 
+/* ---------- FOOTER ---------- */
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    z-index: 2;
+}
+
+    .card-footer small {
+        display: block;
+        margin-bottom: 4px;
+        color: #7F8BA3;
+        font-size: 11px;
+        letter-spacing: 2px;
+    }
+
+    .card-footer strong {
+        color: #49E39F;
+        font-size: 24px;
+    }
+
 .details-button {
-    margin-top: 8px;
-    height: 48px;
+    height: 42px;
+    padding: 0 18px;
     border: none;
     border-radius: 10px;
-    background: #263147;
-    color: #EDF2FF;
-    font-weight: 700;
+    background: #283247;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
     transition: .2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
     .details-button:hover {
-        background: #33415D;
+        background: #34425E;
+        transform: translateY(-1px);
+    }
+
+    .details-button i {
+        color: #FF9A47;
+    }
+
+/* ---------- RESPONSIVO ---------- */
+
+@media (max-width:700px) {
+
+    .filament-card {
+        padding: 18px;
+    }
+
+    .card-body {
+        gap: 14px;
+    }
+
+    .preview {
+        width: 54px;
+        height: 54px;
+    }
+
+    .info h3 {
+        font-size: 20px;
+    }
+
+    .stock-header strong {
+        font-size: 18px;
+    }
+
+    .card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .details-button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+.preview {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: #243047;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+    .preview i {
+        font-size: 30px;
+    }
+
+    .preview.pla i {
+        color: #F6C315;
+    }
+
+    .preview.abs i {
+        color: #C8CDD4;
+    }
+
+    .preview.petg i {
+        color: #2DA9FF;
+    }
+
+    .preview.tpu i {
+        color: #32D971;
     }

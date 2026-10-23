@@ -1,7 +1,9 @@
 ﻿using CalculadoraFilamentoPro.Domain.Configurations.Entities;
 using CalculadoraFilamentoPro.Domain.Configurations.Repositories;
+using CalculadoraFilamentoPro.Domain.Filaments.Repositories;
 using CalculadoraFilamentoPro.Domain.Users.Repositories;
 using CalculadoraFilamentoPro.Infra.Configuration.Repositories;
+using CalculadoraFilamentoPro.Infra.Filaments;
 using CalculadoraFilamentoPro.Infra.Shared.Persistence;
 using CalculadoraFilamentoPro.Infra.Users;
 using CalculadoraFilamentoPro.Ioc.Infrastructure.Persistence;
@@ -33,5 +35,6 @@ internal static class InfrastructureConfig
         });
         services.AddScoped<IDataBaseInitializer, DatabaseInitializer>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IFilamentRepository, FilamentRepository>();
     }
 }

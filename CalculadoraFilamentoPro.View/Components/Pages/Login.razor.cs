@@ -35,7 +35,9 @@ namespace CalculadoraFilamentoPro.Components.Pages
                 if (!result.Success) throw new Exception(result.Error);
 
                 _ = Toast!.ShowSuccess("Login realizado com sucesso.");
+
                 await Task.Delay(700);
+
                 Navigation.NavigateTo("/home");
             }
             catch (Exception ex)

@@ -40,20 +40,23 @@
 
 <div class="filaments-grid">
 
-    <FilamentCard
-        Material="PLA"
-        MaterialClass="pla"
-        Status="Disponível"
-        StatusClass="ok"
-        Nome="PLA Preto Onyx"
-        Marca="3D Fila Pro"
-        PesoAtual="680"
-        PesoOriginal="1000"
-        Percentual="68"
-        ValorCompra="R$ 119,90"
-        ValorGrama="R$ 0,119"
-        Fornecedor="3D Lab"
-        DataEntrada="10/01/2026" />
+    <FilamentCard Id="@Guid.NewGuid()"
+                  Codigo="FIL-2025-001"
+                  Material="PLA"
+                  MaterialClass="pla"
+                  Status="Lacrado"
+                  StatusClass="ok"
+                  Nome="PLA Preto Onyx"
+                  Marca="3D Fila Pro"
+                  Cor="Preto Onyx"
+                  Imagem="images/filaments/pla-preto.png"
+                  PesoAtual="680m"
+                  PesoOriginal="1000m"
+                  ValorCompra="119.90m"
+                  ValorGrama="0.119m"
+                  Fornecedor="3D Lab"
+                  DataEntrada="@(new DateTime(2026, 1, 10))"
+                  OnVisualizar="VisualizarFilamento" />
 
 </div>
 
