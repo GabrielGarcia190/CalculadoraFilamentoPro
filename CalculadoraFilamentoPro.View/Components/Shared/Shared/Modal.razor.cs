@@ -20,6 +20,15 @@ public partial class Modal
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
+    public string Badge { get; set; } = "";
+
+    [Parameter]
+    public string Code { get; set; } = "";
+
+    [Parameter]
+    public string Status { get; set; } = "";
+
+    [Parameter]
     public EventCallback OnClose { get; set; }
 
     protected async Task Close()

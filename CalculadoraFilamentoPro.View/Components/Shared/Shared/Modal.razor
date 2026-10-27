@@ -1,53 +1,72 @@
 ﻿@if (Visible)
 {
-    <div class="modal-overlay"
-         @onclick="Close">
+        <div class="modal-overlay">
+<div class="modal-header">
 
-        <div class="modal-window"
-             @onclick:stopPropagation>
+    <div class="modal-header-left">
 
-            <div class="modal-header">
+        @if (!string.IsNullOrWhiteSpace(Icon))
+        {
+            <div class="modal-icon">
 
-                <div class="modal-header-content">
+                <i class="@Icon"></i>
 
-                    @if (!string.IsNullOrWhiteSpace(Icon))
-                    {
-                        <div class="modal-icon">
+            </div>
+        }
 
-                            <i class="@Icon"></i>
+        <div class="modal-title-area">
 
-                        </div>
-                    }
+            <div class="modal-tags">
 
-                    <div>
+                @if (!string.IsNullOrWhiteSpace(Badge))
+                {
+                    <span class="badge-main">
+                        @Badge
+                    </span>
+                }
 
-                        <h2>@Title</h2>
+                @if (!string.IsNullOrWhiteSpace(Code))
+                {
+                    <span class="badge-code">
+                        @Code
+                    </span>
+                }
 
-                        @if (!string.IsNullOrWhiteSpace(Subtitle))
-                        {
-                            <span>@Subtitle</span>
-                        }
-
-                    </div>
-
-                </div>
-
-                <button class="close-button"
-                        @onclick="Close">
-
-                    <i class="bi bi-x-lg"></i>
-
-                </button>
+                @if (!string.IsNullOrWhiteSpace(Status))
+                {
+                    <span class="badge-status">
+                        @Status
+                    </span>
+                }
 
             </div>
 
-            <div class="modal-body">
+            <h2>@Title</h2>
 
-                @ChildContent
-
-            </div>
+            @if (!string.IsNullOrWhiteSpace(Subtitle))
+            {
+                <p>
+                    @Subtitle
+                </p>
+            }
 
         </div>
 
     </div>
+
+    <button class="close-button"
+            @onclick="Close">
+
+        <i class="bi bi-x-lg"></i>
+
+    </button>
+
+     <div class="modal-body">
+
+                @ChildContent
+</div>
+
+</div>
+
+</div>
 }

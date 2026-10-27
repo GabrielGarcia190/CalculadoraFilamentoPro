@@ -39,23 +39,18 @@
             Exportar Balanço
         </button> *@
 
-        <button class="primary" @onclick="AbrirModal">
+   
+        <button class="primary" @onclick="@AbrirModal">
             <i class="bi bi-cart-plus"></i>
             Registrar Aquisição (Nova Compra)
         </button>
 
     </div>
 
-    <Modal
+<FilamentForm
     Visible="@MostrarModal"
-    Title="Cadastrar Filamento"
-    Subtitle="Insira os dados do novo material"
-    Icon="bi bi-plus-circle"
-    OnClose="FecharModal">
-
-    <p>Conteúdo do formulário virá aqui.</p>
-
-</Modal>
+    OnClose="@FecharModal"
+    OnSave="@SalvarFilamento" />
 
 </div>
 

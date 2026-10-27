@@ -1,0 +1,28 @@
+﻿<div class="form-section">
+
+    <div class="section-header">
+
+        <div class="section-number">
+            @Number
+        </div>
+
+        <div>
+
+            <h3>@Title</h3>
+
+            @if (!string.IsNullOrWhiteSpace(Description))
+            {
+                <span>@Description</span>
+            }
+
+        </div>
+
+    </div>
+
+    <div class="section-content">
+
+        @ChildContent
+
+    </div>
+
+</div>

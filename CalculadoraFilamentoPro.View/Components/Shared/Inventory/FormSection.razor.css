@@ -1,0 +1,43 @@
+.form-section {
+    margin-bottom: 24px;
+    background: #1B2437;
+    border: 1px solid #2C3650;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px 24px;
+    border-bottom: 1px solid #2C3650;
+    background: #202A40;
+}
+
+.section-number {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: #ff7900;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+}
+
+.section-header h3 {
+    margin: 0;
+    color: white;
+    font-size: 18px;
+}
+
+.section-header span {
+    color: #8EA0BD;
+    font-size: 13px;
+}
+
+.section-content {
+    padding: 24px;
+}

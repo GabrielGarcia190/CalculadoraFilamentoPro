@@ -1,0 +1,110 @@
+﻿<Modal
+    Visible="@Visible"
+    Title="Cadastrar Filamento"
+    Subtitle="Insira as informações do novo filamento6."
+    Icon="bi bi-plus-circle"
+    Badge="Novo Cadastro"
+    Code="#FIL-001"
+    Status="Em Estoque"
+    OnClose="Close">
+
+    <FormSection
+        Number="1"
+        Title="Identificação"
+        Description="Informações básicas do material">
+
+
+        <div class="form-grid">
+
+            <div class="form-field">
+
+                <label>Nome do Filamento</label>
+
+                <input />
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>Marca / Fabricante</label>
+
+                <input />
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>Tipo de Polímero</label>
+
+                <select>
+
+                    <option>PLA</option>
+                    <option>PETG</option>
+                    <option>ABS</option>
+                    <option>TPU</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>Cor</label>
+
+                <input />
+
+            </div>
+
+
+        </div>
+
+
+    </FormSection>
+
+
+    <FormSection
+        Number="2"
+        Title="Peso e Custos"
+        Description="Dados da aquisição">
+
+
+        <div class="form-grid">
+
+
+            <div class="form-field">
+
+                <label>Peso Líquido (g)</label>
+
+                <input type="number" />
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>Preço Pago (R$)</label>
+
+                <input type="number" />
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>Frete</label>
+
+                <input type="number" />
+
+            </div>
+
+
+        </div>
+
+
+    </FormSection>
+
+
+</Modal>

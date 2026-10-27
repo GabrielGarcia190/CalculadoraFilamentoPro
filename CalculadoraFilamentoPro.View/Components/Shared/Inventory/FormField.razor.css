@@ -1,0 +1,12 @@
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+    .form-field label {
+        color: #95A3BC;
+        font-size: 12px;
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
