@@ -12,6 +12,7 @@ permissions:
   contents: write
 
 env:
+  SOLUTION: CalculadoraFilamentoPro.sln
   PROJECT: CalculadoraFilamentoPro.View/CalculadoraFilamentoPro.View.csproj
   TARGET_FRAMEWORK: net10.0-windows10.0.19041.0
   RUNTIME: win-x64
@@ -20,34 +21,39 @@ env:
 
 jobs:
   publish-windows:
+
     name: Publish Windows installer
     runs-on: windows-latest
 
     steps:
+
       - name: Checkout source
         uses: actions/checkout@v4
         with:
           ref: ${{ github.event.release.tag_name || github.ref }}
           fetch-depth: 0
 
+
       - name: Setup .NET 10
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
 
+
       - name: Install .NET MAUI workload
         shell: pwsh
-        run: dotnet workload install maui --skip-manifest-update
+        run: |
+          dotnet workload install maui --skip-manifest-update
 
-      # ALTERAÇÃO AQUI
-      # O RuntimeIdentifier precisa estar presente durante o restore
-      # para que o runtime pack win-x64 seja baixado.
+
+      # Restore da solução inteira
+      # Assim cada projeto restaura seu próprio TargetFramework
       - name: Restore NuGet packages
         shell: pwsh
         run: |
-          dotnet restore $env:PROJECT `
-            --runtime $env:RUNTIME `
-            -p:TargetFramework=$env:TARGET_FRAMEWORK
+          dotnet restore $env:SOLUTION `
+            --runtime $env:RUNTIME
+
 
       - name: Resolve release version
         id: version
@@ -55,19 +61,26 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
+
           if ([string]::IsNullOrWhiteSpace($env:RELEASE_TAG)) {
+
             $installerVersion = "1.0.$env:GITHUB_RUN_NUMBER"
+
           }
           else {
+
             $version = $env:RELEASE_TAG -replace '^[vV]', ''
             $version = ($version -split '\+')[0]
+
             $parts = $version -split '\.'
             $numericParts = @()
 
             foreach ($part in $parts) {
+
               if ($part -match '^\d+') {
                 $numericParts += $Matches[0]
               }
+
             }
 
             while ($numericParts.Count -lt 3) {
@@ -75,21 +88,32 @@ jobs:
             }
 
             $installerVersion = ($numericParts | Select-Object -First 3) -join '.'
+
           }
+
 
           if ($installerVersion -notmatch '^\d+\.\d+\.\d+$') {
-            throw "Version '$installerVersion' is not a valid numeric installer version."
+            throw "Version '$installerVersion' is not valid."
           }
 
+
           "value=$installerVersion" >> $env:GITHUB_OUTPUT
-          "Installer version: $installerVersion"
+
+          Write-Host "Installer version: $installerVersion"
+
+
 
       - name: Publish Windows application
         shell: pwsh
         env:
           VERSION: ${{ steps.version.outputs.value }}
         run: |
-          New-Item -ItemType Directory -Force -Path $env:PUBLISH_DIR | Out-Null
+
+          New-Item `
+            -ItemType Directory `
+            -Force `
+            -Path $env:PUBLISH_DIR | Out-Null
+
 
           dotnet publish $env:PROJECT `
             --configuration Release `
@@ -102,55 +126,94 @@ jobs:
             -p:WindowsAppSDKSelfContained=true `
             -p:ApplicationDisplayVersion=$env:VERSION
 
+
+
       - name: Install Inno Setup
         shell: pwsh
-        run: choco install innosetup --no-progress --yes
+        run: |
+          choco install innosetup --no-progress --yes
+
+
 
       - name: Build installer
         shell: pwsh
         env:
           VERSION: ${{ steps.version.outputs.value }}
         run: |
-          New-Item -ItemType Directory -Force -Path $env:INSTALLER_DIR | Out-Null
 
-          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          New-Item `
+            -ItemType Directory `
+            -Force `
+            -Path $env:INSTALLER_DIR | Out-Null
+
+
+          $iscc = Join-Path `
+            ${env:ProgramFiles(x86)} `
+            'Inno Setup 6\ISCC.exe'
+
 
           if (-not (Test-Path $iscc)) {
-            throw "Inno Setup compiler not found at $iscc"
+
+            throw "Inno Setup compiler not found."
+
           }
+
 
           & $iscc `
             "/DAppVersion=$env:VERSION" `
             "/DPublishDir=$env:PUBLISH_DIR" `
             "$env:GITHUB_WORKSPACE\Installer\setup.iss"
 
+
           if ($LASTEXITCODE -ne 0) {
-            throw "Inno Setup failed with exit code $LASTEXITCODE"
+
+            throw "Inno Setup failed."
+
           }
+
+
 
       - name: Verify installer
         shell: pwsh
         run: |
-          $installer = Join-Path $env:INSTALLER_DIR 'CalculadoraFilamentoProSetup.exe'
+
+          $installer = Join-Path `
+            $env:INSTALLER_DIR `
+            'CalculadoraFilamentoProSetup.exe'
+
 
           if (-not (Test-Path $installer)) {
-            throw "Installer was not generated: $installer"
+
+            throw "Installer was not generated."
+
           }
 
-          Get-Item $installer | Select-Object FullName, Length
+
+          Get-Item $installer |
+            Select-Object FullName, Length
+
+
 
       - name: Upload installer to GitHub Release
         if: github.event_name == 'release'
         uses: softprops/action-gh-release@v2
         with:
+
           tag_name: ${{ github.event.release.tag_name }}
+
           files: artifacts/installer/CalculadoraFilamentoProSetup.exe
+
           fail_on_unmatched_files: true
+
+
 
       - name: Upload installer as workflow artifact
         if: github.event_name != 'release'
         uses: actions/upload-artifact@v4
         with:
+
           name: windows-installer-${{ github.run_number }}
+
           path: artifacts/installer/CalculadoraFilamentoProSetup.exe
+
           if-no-files-found: error
