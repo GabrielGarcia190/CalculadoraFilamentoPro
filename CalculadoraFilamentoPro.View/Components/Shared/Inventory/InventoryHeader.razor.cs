@@ -1,28 +1,12 @@
+using Microsoft.AspNetCore.Components;
+
 namespace CalculadoraFilamentoPro.Components.Shared.Inventory;
 
 public partial class InventoryHeader
 {
-    private bool MostrarCadastro;
+    [Parameter]
+    public EventCallback OnNewFilament { get; set; }
 
-    private bool MostrarModal;
-
-    private void AbrirModal()
-    {
-        MostrarModal = true;
-    }
-
-    private void FecharModal()
-    {
-        MostrarModal = false;
-    }
-
-    private void FecharCadastro()
-    {
-        MostrarCadastro = false;
-    }
-
-    private async Task SalvarFilamento()
-    {
-        MostrarCadastro = false;
-    }
+    private Task AbrirModal()
+        => OnNewFilament.InvokeAsync();
 }

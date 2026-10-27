@@ -1,0 +1,146 @@
+.filament-form {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+    flex-direction: column;
+    color: #e8edf7;
+    font-family: 'JetBrains Mono', 'Cascadia Mono', monospace;
+}
+
+.form-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.form-grid-identification {
+    grid-template-columns: 1fr 1fr;
+}
+
+.form-grid-costs {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.form-field {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-field label {
+    overflow: hidden;
+    color: #7f8ca7;
+    font-size: 8px;
+    letter-spacing: .2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.form-field input,
+.form-field select {
+    width: 100%;
+    min-width: 0;
+    height: 26px;
+    padding: 0 9px;
+    border: 1px solid #25324d;
+    border-radius: 3px;
+    outline: none;
+    background: #202a40;
+    color: #d9e0ed;
+    font: 600 9px 'JetBrains Mono', monospace;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+    border-color: #df650b;
+    box-shadow: 0 0 0 2px rgba(255, 107, 0, .12);
+}
+
+.form-field select {
+    cursor: pointer;
+}
+
+.color-input {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 6px;
+}
+
+.form-field input.color-picker {
+    width: 32px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.cost-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 52%;
+    min-height: 32px;
+    margin-top: 12px;
+    padding: 0 12px;
+    border: 1px solid #075566;
+    border-radius: 3px;
+    background: #0c1d2b;
+}
+
+.cost-label {
+    color: #81a0ac;
+    font-size: 8px;
+    text-transform: uppercase;
+}
+
+.cost-label i {
+    margin-right: 4px;
+    color: #21d8a0;
+}
+
+.cost-summary strong {
+    color: #39e1ae;
+    font-size: 15px;
+}
+
+.cost-summary small {
+    color: #b4c7c9;
+    font-size: 8px;
+    font-weight: 400;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex: 0 0 auto;
+    padding-top: 6px;
+}
+
+.form-actions button {
+    height: 32px;
+    border: 0;
+    border-radius: 4px;
+    font: 700 10px 'Inter', sans-serif;
+    cursor: pointer;
+}
+
+.form-cancel {
+    padding: 0 14px;
+    background: #263149;
+    color: #c3ccdc;
+}
+
+.form-save {
+    padding: 0 19px;
+    background: #ff7900;
+    color: #241508;
+    box-shadow: 0 4px 12px rgba(255, 121, 0, .22);
+}
+
+.form-save:hover { background: #ff8e27; }
+
+@media (max-width: 480px) {
+    .form-grid-identification,
+    .form-grid-costs { grid-template-columns: 1fr; }
+    .cost-summary { width: 100%; }
+}

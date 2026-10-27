@@ -1,7 +1,7 @@
 ﻿@page "/inventory"
 @layout MainLayout
 
-<InventoryHeader />
+<InventoryHeader OnNewFilament="NovoFilamento" />
 
 <div class="summary-grid">
 
@@ -39,26 +39,33 @@
     CategoriaSelecionadaChanged="OnCategoriaChanged" />
 
 <div class="filaments-grid">
-
-    <FilamentCard Id="@Guid.NewGuid()"
-                  Codigo="FIL-2025-001"
-                  Material="PLA"
-                  MaterialClass="pla"
-                  Status="Lacrado"
-                  StatusClass="ok"
-                  Nome="PLA Preto Onyx"
-                  Marca="3D Fila Pro"
-                  Cor="Preto Onyx"
-                  Imagem="images/filaments/pla-preto.png"
-                  PesoAtual="680m"
-                  PesoOriginal="1000m"
-                  ValorCompra="119.90m"
-                  ValorGrama="0.119m"
-                  Fornecedor="3D Lab"
-                  DataEntrada="@(new DateTime(2026, 1, 10))"
-                  OnVisualizar="VisualizarFilamento" />
-
+    @foreach (var filament in Filamentos)
+    {
+        <FilamentCard Id="@filament.Id"
+                      Codigo="@($"FIL-{filament.Id.ToString()[..8].ToUpperInvariant()}")"
+                      Material="@filament.Type.ToString()"
+                      MaterialClass="@filament.Type.ToString().ToLowerInvariant()"
+                      Status="@(filament.Status.ToString())"
+                      StatusClass="ok"
+                      Nome="@filament.Name"
+                      Marca="@filament.Brand"
+                      Cor="@filament.Color"
+                      PesoAtual="@filament.RemainingWeight"
+                      PesoOriginal="@filament.OriginalWeight"
+                      ValorCompra="@filament.CostPrice"
+                      ValorGrama="@(filament.OriginalWeight > 0 ? filament.CostPrice / filament.OriginalWeight : 0)"
+                      Fornecedor="@filament.Brand"
+                      DataEntrada="@filament.PurchaseDate"
+                      OnVisualizar="VisualizarFilamento"
+                      OnEditar="EditarFilamento" />
+    }
 </div>
+
+<FilamentForm Visible="@MostrarModal"
+             UserId="@UserId"
+             FilamentParaEditar="@FilamentoSelecionado"
+             OnClose="FecharModal"
+             OnSave="SalvarFilamento" />
 
 <Pagination
     CurrentPage="@Pagina"

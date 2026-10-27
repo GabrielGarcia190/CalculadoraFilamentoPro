@@ -38,6 +38,8 @@ namespace CalculadoraFilamentoPro.Components.Shared.Inventory
 
         [Parameter] public EventCallback<Guid> OnVisualizar { get; set; }
 
+        [Parameter] public EventCallback<Guid> OnEditar { get; set; }
+
         protected int Percentual =>
             PesoOriginal <= 0
                 ? 0
@@ -60,5 +62,8 @@ namespace CalculadoraFilamentoPro.Components.Shared.Inventory
 
         protected Task VisualizarDetalhes()
             => OnVisualizar.InvokeAsync(Id);
+
+        protected Task EditarFilamento()
+            => OnEditar.InvokeAsync(Id);
     }
 }

@@ -1,72 +1,51 @@
 ﻿@if (Visible)
 {
-        <div class="modal-overlay">
-<div class="modal-header">
+    <div class="modal-overlay">
+        <div class="modal-window" role="dialog" aria-modal="true" aria-label="@Title">
+            <header class="modal-header">
+                <div class="modal-header-left">
+                    @if (!string.IsNullOrWhiteSpace(Icon))
+                    {
+                        <div class="modal-icon">
+                            <i class="@Icon"></i>
+                        </div>
+                    }
 
-    <div class="modal-header-left">
+                    <div class="modal-title-area">
+                        <div class="modal-tags">
+                            @if (!string.IsNullOrWhiteSpace(Badge))
+                            {
+                                <span class="badge-main">@Badge</span>
+                            }
 
-        @if (!string.IsNullOrWhiteSpace(Icon))
-        {
-            <div class="modal-icon">
+                            @if (!string.IsNullOrWhiteSpace(Code))
+                            {
+                                <span class="badge-code">@Code</span>
+                            }
 
-                <i class="@Icon"></i>
+                            @if (!string.IsNullOrWhiteSpace(Status))
+                            {
+                                <span class="badge-status">@Status</span>
+                            }
+                        </div>
 
-            </div>
-        }
+                        <h2>@Title</h2>
 
-        <div class="modal-title-area">
+                        @if (!string.IsNullOrWhiteSpace(Subtitle))
+                        {
+                            <p>@Subtitle</p>
+                        }
+                    </div>
+                </div>
 
-            <div class="modal-tags">
+                <button class="close-button" type="button" aria-label="Fechar" @onclick="Close">
+                    <i class="bi bi-x-lg"></i>
+                </button>
+            </header>
 
-                @if (!string.IsNullOrWhiteSpace(Badge))
-                {
-                    <span class="badge-main">
-                        @Badge
-                    </span>
-                }
-
-                @if (!string.IsNullOrWhiteSpace(Code))
-                {
-                    <span class="badge-code">
-                        @Code
-                    </span>
-                }
-
-                @if (!string.IsNullOrWhiteSpace(Status))
-                {
-                    <span class="badge-status">
-                        @Status
-                    </span>
-                }
-
-            </div>
-
-            <h2>@Title</h2>
-
-            @if (!string.IsNullOrWhiteSpace(Subtitle))
-            {
-                <p>
-                    @Subtitle
-                </p>
-            }
-
-        </div>
-
-    </div>
-
-    <button class="close-button"
-            @onclick="Close">
-
-        <i class="bi bi-x-lg"></i>
-
-    </button>
-
-     <div class="modal-body">
-
+            <div class="modal-body">
                 @ChildContent
-</div>
-
-</div>
-
-</div>
+            </div>
+        </div>
+    </div>
 }
