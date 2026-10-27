@@ -39,9 +39,15 @@ jobs:
         shell: pwsh
         run: dotnet workload install maui --skip-manifest-update
 
+      # ALTERAÇÃO AQUI
+      # O RuntimeIdentifier precisa estar presente durante o restore
+      # para que o runtime pack win-x64 seja baixado.
       - name: Restore NuGet packages
         shell: pwsh
-        run: dotnet restore $env:PROJECT -p:TargetFramework=$env:TARGET_FRAMEWORK
+        run: |
+          dotnet restore $env:PROJECT `
+            --runtime $env:RUNTIME `
+            -p:TargetFramework=$env:TARGET_FRAMEWORK
 
       - name: Resolve release version
         id: version
@@ -57,17 +63,24 @@ jobs:
             $version = ($version -split '\+')[0]
             $parts = $version -split '\.'
             $numericParts = @()
+
             foreach ($part in $parts) {
               if ($part -match '^\d+') {
                 $numericParts += $Matches[0]
               }
             }
-            while ($numericParts.Count -lt 3) { $numericParts += '0' }
+
+            while ($numericParts.Count -lt 3) {
+              $numericParts += '0'
+            }
+
             $installerVersion = ($numericParts | Select-Object -First 3) -join '.'
           }
+
           if ($installerVersion -notmatch '^\d+\.\d+\.\d+$') {
             throw "Version '$installerVersion' is not a valid numeric installer version."
           }
+
           "value=$installerVersion" >> $env:GITHUB_OUTPUT
           "Installer version: $installerVersion"
 
@@ -77,6 +90,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.value }}
         run: |
           New-Item -ItemType Directory -Force -Path $env:PUBLISH_DIR | Out-Null
+
           dotnet publish $env:PROJECT `
             --configuration Release `
             --framework $env:TARGET_FRAMEWORK `
@@ -98,14 +112,18 @@ jobs:
           VERSION: ${{ steps.version.outputs.value }}
         run: |
           New-Item -ItemType Directory -Force -Path $env:INSTALLER_DIR | Out-Null
+
           $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+
           if (-not (Test-Path $iscc)) {
             throw "Inno Setup compiler not found at $iscc"
           }
+
           & $iscc `
             "/DAppVersion=$env:VERSION" `
             "/DPublishDir=$env:PUBLISH_DIR" `
             "$env:GITHUB_WORKSPACE\Installer\setup.iss"
+
           if ($LASTEXITCODE -ne 0) {
             throw "Inno Setup failed with exit code $LASTEXITCODE"
           }
@@ -114,9 +132,11 @@ jobs:
         shell: pwsh
         run: |
           $installer = Join-Path $env:INSTALLER_DIR 'CalculadoraFilamentoProSetup.exe'
+
           if (-not (Test-Path $installer)) {
             throw "Installer was not generated: $installer"
           }
+
           Get-Item $installer | Select-Object FullName, Length
 
       - name: Upload installer to GitHub Release
