@@ -22,6 +22,9 @@
         <!-- XAML source generation -->
         <MauiXamlInflator>SourceGen</MauiXamlInflator>
 
+        <!-- Desabilita ReadyToRun para CI -->
+        <PublishReadyToRun>false</PublishReadyToRun>
+
 
         <!-- Application -->
         <ApplicationTitle>CalculadoraFilamentoPro</ApplicationTitle>
@@ -56,21 +59,21 @@
 
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg"
-                  ForegroundFile="Resources\AppIcon\appiconfg.svg"
-                  Color="#512BD4" />
+            ForegroundFile="Resources\AppIcon\appiconfg.svg"
+            Color="#512BD4" />
 
 
         <!-- Splash -->
         <MauiSplashScreen Include="Resources\Splash\splash.svg"
-                          Color="#512BD4"
-                          BaseSize="128,128" />
+            Color="#512BD4"
+            BaseSize="128,128" />
 
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
 
         <MauiImage Update="Resources\Images\dotnet_bot.svg"
-                   BaseSize="168,208" />
+            BaseSize="168,208" />
 
 
         <!-- Fonts -->
@@ -79,35 +82,35 @@
 
         <!-- Raw -->
         <MauiAsset Include="Resources\Raw\**"
-                   LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+            LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
 
     </ItemGroup>
-
 
 
     <ItemGroup>
 
         <PackageReference Include="Enums.NET"
-                          Version="5.0.0" />
+            Version="5.0.0" />
 
         <PackageReference Include="Microsoft.Maui.Controls"
-                          Version="$(MauiVersion)" />
+            Version="$(MauiVersion)" />
 
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui"
-                          Version="$(MauiVersion)" />
+            Version="$(MauiVersion)" />
 
         <PackageReference Include="Microsoft.Extensions.Logging.Debug"
-                          Version="10.0.0" />
+            Version="10.0.0" />
 
     </ItemGroup>
 
 
-
     <ItemGroup>
 
-        <ProjectReference Include="..\CalculadoraFilamentoPro.App\CalculadoraFilamentoPro.App.csproj" />
+        <ProjectReference
+            Include="..\CalculadoraFilamentoPro.App\CalculadoraFilamentoPro.App.csproj" />
 
-        <ProjectReference Include="..\CalculadoraFilamentoPro.Ioc\CalculadoraFilamentoPro.Ioc.csproj" />
+        <ProjectReference
+            Include="..\CalculadoraFilamentoPro.Ioc\CalculadoraFilamentoPro.Ioc.csproj" />
 
     </ItemGroup>
 
