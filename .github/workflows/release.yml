@@ -38,6 +38,7 @@ jobs:
 
     steps:
 
+
       - name: Checkout source
 
         uses: actions/checkout@v4
@@ -70,10 +71,6 @@ jobs:
 
 
 
-      #
-      # Projetos Clean Architecture
-      # net10.0
-      #
       - name: Restore backend projects
 
         shell: pwsh
@@ -90,10 +87,6 @@ jobs:
 
 
 
-      #
-      # Projeto MAUI
-      # Apenas Windows
-      #
       - name: Restore Windows MAUI target
 
         shell: pwsh
@@ -101,8 +94,8 @@ jobs:
         run: |
 
           dotnet restore $env:PROJECT `
-            --framework $env:TARGET_FRAMEWORK `
-            --runtime $env:RUNTIME
+            --runtime $env:RUNTIME `
+            -p:TargetFramework=$env:TARGET_FRAMEWORK
 
 
 
@@ -210,9 +203,7 @@ jobs:
 
         run: |
 
-          choco install innosetup `
-            --no-progress `
-            --yes
+          choco install innosetup --no-progress --yes
 
 
 
@@ -239,13 +230,11 @@ jobs:
             'Inno Setup 6\ISCC.exe'
 
 
-
           if (-not (Test-Path $iscc)) {
 
-            throw "Inno Setup compiler not found at $iscc"
+            throw "Inno Setup compiler not found"
 
           }
-
 
 
           & $iscc `
@@ -257,7 +246,7 @@ jobs:
 
           if ($LASTEXITCODE -ne 0) {
 
-            throw "Inno Setup failed with exit code $LASTEXITCODE"
+            throw "Inno Setup failed"
 
           }
 
@@ -276,7 +265,7 @@ jobs:
 
           if (-not (Test-Path $installer)) {
 
-            throw "Installer was not generated: $installer"
+            throw "Installer was not generated"
 
           }
 
