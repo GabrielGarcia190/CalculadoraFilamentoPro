@@ -4,22 +4,26 @@ on:
   push:
     branches:
       - '**'
+
   workflow_dispatch:
+
   release:
     types: [published]
+
 
 permissions:
   contents: write
 
 
 env:
-  SOLUTION: CalculadoraFilamentoPro.slnx
   PROJECT: CalculadoraFilamentoPro.View/CalculadoraFilamentoPro.View.csproj
 
   TARGET_FRAMEWORK: net10.0-windows10.0.19041.0
+
   RUNTIME: win-x64
 
   PUBLISH_DIR: ${{ github.workspace }}/artifacts/publish
+
   INSTALLER_DIR: ${{ github.workspace }}/artifacts/installer
 
 
@@ -28,45 +32,90 @@ jobs:
   publish-windows:
 
     name: Publish Windows installer
+
     runs-on: windows-latest
 
 
     steps:
 
       - name: Checkout source
+
         uses: actions/checkout@v4
+
         with:
+
           ref: ${{ github.event.release.tag_name || github.ref }}
+
           fetch-depth: 0
 
 
+
       - name: Setup .NET 10
+
         uses: actions/setup-dotnet@v4
+
         with:
+
           dotnet-version: 10.0.x
 
 
-      - name: Install .NET MAUI workload
+
+      - name: Install MAUI workload
+
         shell: pwsh
+
         run: |
+
           dotnet workload install maui --skip-manifest-update
 
 
-      # Restore da solução completa
-      # Cada projeto mantém seu próprio TargetFramework
-      - name: Restore solution
+
+      #
+      # Projetos Clean Architecture
+      # net10.0
+      #
+      - name: Restore backend projects
+
         shell: pwsh
+
         run: |
-          dotnet restore $env:SOLUTION `
+
+          dotnet restore CalculadoraFilamentoPro.Domain/CalculadoraFilamentoPro.Domain.csproj
+
+          dotnet restore CalculadoraFilamentoPro.App/CalculadoraFilamentoPro.App.csproj
+
+          dotnet restore CalculadoraFilamentoPro.Infra/CalculadoraFilamentoPro.Infra.csproj
+
+          dotnet restore CalculadoraFilamentoPro.Ioc/CalculadoraFilamentoPro.Ioc.csproj
+
+
+
+      #
+      # Projeto MAUI
+      # Apenas Windows
+      #
+      - name: Restore Windows MAUI target
+
+        shell: pwsh
+
+        run: |
+
+          dotnet restore $env:PROJECT `
+            --framework $env:TARGET_FRAMEWORK `
             --runtime $env:RUNTIME
 
 
 
       - name: Resolve release version
+
         id: version
+
         shell: pwsh
+
         env:
+
           RELEASE_TAG: ${{ github.event.release.tag_name }}
+
 
         run: |
 
@@ -75,12 +124,15 @@ jobs:
             $installerVersion = "1.0.$env:GITHUB_RUN_NUMBER"
 
           }
+
           else {
 
             $version = $env:RELEASE_TAG -replace '^[vV]', ''
+
             $version = ($version -split '\+')[0]
 
             $parts = $version -split '\.'
+
             $numericParts = @()
 
 
@@ -122,9 +174,13 @@ jobs:
 
 
       - name: Publish Windows application
+
         shell: pwsh
+
         env:
+
           VERSION: ${{ steps.version.outputs.value }}
+
 
         run: |
 
@@ -148,9 +204,10 @@ jobs:
 
 
 
-
       - name: Install Inno Setup
+
         shell: pwsh
+
         run: |
 
           choco install innosetup `
@@ -159,11 +216,14 @@ jobs:
 
 
 
-
       - name: Build installer
+
         shell: pwsh
+
         env:
+
           VERSION: ${{ steps.version.outputs.value }}
+
 
         run: |
 
@@ -182,7 +242,7 @@ jobs:
 
           if (-not (Test-Path $iscc)) {
 
-            throw "Inno Setup compiler not found."
+            throw "Inno Setup compiler not found at $iscc"
 
           }
 
@@ -197,15 +257,16 @@ jobs:
 
           if ($LASTEXITCODE -ne 0) {
 
-            throw "Inno Setup failed."
+            throw "Inno Setup failed with exit code $LASTEXITCODE"
 
           }
 
 
 
-
       - name: Verify installer
+
         shell: pwsh
+
         run: |
 
           $installer = Join-Path `
@@ -213,13 +274,11 @@ jobs:
             'CalculadoraFilamentoProSetup.exe'
 
 
-
           if (-not (Test-Path $installer)) {
 
-            throw "Installer was not generated."
+            throw "Installer was not generated: $installer"
 
           }
-
 
 
           Get-Item $installer |
@@ -227,8 +286,8 @@ jobs:
 
 
 
-
       - name: Upload installer to GitHub Release
+
         if: github.event_name == 'release'
 
         uses: softprops/action-gh-release@v2
@@ -243,8 +302,8 @@ jobs:
 
 
 
-
       - name: Upload installer artifact
+
         if: github.event_name != 'release'
 
         uses: actions/upload-artifact@v4
