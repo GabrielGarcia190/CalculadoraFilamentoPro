@@ -1,329 +1,166 @@
 name: Windows Release
 
-
 on:
-
   push:
     branches:
-      - '**'
+      - "**"
 
   workflow_dispatch:
 
   release:
     types: [published]
 
-
 permissions:
-
   contents: write
 
-
-
 env:
-
   PROJECT: CalculadoraFilamentoPro.View/CalculadoraFilamentoPro.View.csproj
-
   RUNTIME: win-x64
-
   PUBLISH_DIR: ${{ github.workspace }}/artifacts/publish
-
   INSTALLER_DIR: ${{ github.workspace }}/artifacts/installer
 
-
-
 jobs:
-
-
   publish-windows:
-
-
     name: Publish Windows installer
-
     runs-on: windows-latest
 
-
-
     steps:
-
-
-
       - name: Checkout source
-
         uses: actions/checkout@v4
-
         with:
-
           fetch-depth: 0
 
-
-
       - name: Setup .NET 10
-
         uses: actions/setup-dotnet@v4
-
         with:
-
           dotnet-version: 10.0.x
 
-
-
       - name: Install MAUI workload
-
         shell: pwsh
-
         run: |
-
           dotnet workload install maui --skip-manifest-update
 
-
-
       - name: Restore
-
         shell: pwsh
-
         run: |
-
           dotnet restore $env:PROJECT `
             --runtime $env:RUNTIME `
             -p:PublishReadyToRun=false
 
-
-
       - name: Resolve version
-
         id: version
-
         shell: pwsh
-
         env:
-
           RELEASE_TAG: ${{ github.event.release.tag_name }}
-
-
         run: |
-
-
           if ([string]::IsNullOrWhiteSpace($env:RELEASE_TAG)) {
-
               $version = "1.0.$env:GITHUB_RUN_NUMBER"
-
           }
-
           else {
-
               $version = $env:RELEASE_TAG -replace '^[vV]', ''
-
               $version = ($version -split '\+')[0]
-
               $parts = $version -split '\.'
-
               $numbers = @()
 
-
               foreach ($part in $parts) {
-
                   if ($part -match '^\d+') {
-
                       $numbers += $Matches[0]
-
                   }
-
               }
-
 
               while ($numbers.Count -lt 3) {
-
                   $numbers += "0"
-
               }
 
-
               $version = ($numbers | Select-Object -First 3) -join '.'
-
           }
-
-
 
           if ($version -notmatch '^\d+\.\d+\.\d+$') {
-
               throw "Invalid version: $version"
-
           }
 
-
-
           "value=$version" >> $env:GITHUB_OUTPUT
-
-
           Write-Host "Version: $version"
 
-
-
-
-
       - name: Publish Windows application
-
         shell: pwsh
-
         env:
-
           VERSION: ${{ steps.version.outputs.value }}
-
-
         run: |
-
-
           New-Item `
             -ItemType Directory `
             -Force `
             -Path $env:PUBLISH_DIR | Out-Null
 
-
-
           dotnet publish $env:PROJECT `
-
             --configuration Release `
-
             --runtime $env:RUNTIME `
-
             --self-contained true `
-
             --no-restore `
-
             --output $env:PUBLISH_DIR `
-
             -p:PublishReadyToRun=false `
-
             -p:ApplicationDisplayVersion=$env:VERSION
 
-
-
-
-
       - name: Install Inno Setup
-
         shell: pwsh
-
         run: |
-
-
           choco install innosetup `
             --yes `
             --no-progress
 
-
-
-
-
       - name: Build installer
-
         shell: pwsh
-
         env:
-
           VERSION: ${{ steps.version.outputs.value }}
-
-
         run: |
-
-
           New-Item `
             -ItemType Directory `
             -Force `
             -Path $env:INSTALLER_DIR | Out-Null
 
-
-
           $iscc = Join-Path `
             ${env:ProgramFiles(x86)} `
             'Inno Setup 6\ISCC.exe'
 
-
-
           if (-not (Test-Path $iscc)) {
-
               throw "Inno Setup compiler not found"
-
           }
-
-
 
           & $iscc `
-
             "/DAppVersion=$env:VERSION" `
-
             "/DPublishDir=$env:PUBLISH_DIR" `
-
             "$env:GITHUB_WORKSPACE\Installer\setup.iss"
 
-
-
           if ($LASTEXITCODE -ne 0) {
-
               throw "Inno Setup failed"
-
           }
 
-
-
-
-
       - name: Verify installer
-
         shell: pwsh
-
         run: |
-
-
           $installer = Join-Path `
             $env:INSTALLER_DIR `
             "CalculadoraFilamentoProSetup.exe"
 
-
-
           if (-not (Test-Path $installer)) {
-
               throw "Installer not generated: $installer"
-
           }
-
-
 
           Get-Item $installer |
             Select-Object FullName, Length
 
-
-
-
-
       - name: Upload installer to GitHub Release
-
         if: github.event_name == 'release'
-
         uses: softprops/action-gh-release@v2
-
         with:
-
           tag_name: ${{ github.event.release.tag_name }}
-
           files: artifacts/installer/CalculadoraFilamentoProSetup.exe
-
           fail_on_unmatched_files: true
 
-
-
-
-
       - name: Upload installer artifact
-
         if: github.event_name != 'release'
-
         uses: actions/upload-artifact@v4
-
         with:
-
           name: windows-installer-${{ github.run_number }}
-
           path: artifacts/installer/CalculadoraFilamentoProSetup.exe
-
           if-no-files-found: error

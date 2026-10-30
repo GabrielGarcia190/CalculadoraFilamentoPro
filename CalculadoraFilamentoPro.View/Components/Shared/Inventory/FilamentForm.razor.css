@@ -5,11 +5,15 @@
     flex-direction: column;
     color: #e8edf7;
     font-family: 'JetBrains Mono', 'Cascadia Mono', monospace;
+    font-size: 14px;
+    zoom: 1;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
 .form-grid {
     display: grid;
-    gap: 12px;
+    gap: 16px;
 }
 
 .form-grid-identification {
@@ -24,14 +28,15 @@
     display: flex;
     min-width: 0;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
 }
 
 .form-field label {
     overflow: hidden;
-    color: #7f8ca7;
-    font-size: 8px;
-    letter-spacing: .2px;
+    color: #95a3bc;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .4px;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
@@ -40,14 +45,14 @@
 .form-field select {
     width: 100%;
     min-width: 0;
-    height: 26px;
-    padding: 0 9px;
+    height: 42px;
+    padding: 0 12px;
     border: 1px solid #25324d;
-    border-radius: 3px;
+    border-radius: 6px;
     outline: none;
     background: #202a40;
     color: #d9e0ed;
-    font: 600 9px 'JetBrains Mono', monospace;
+    font: 600 14px 'JetBrains Mono', monospace;
 }
 
 .form-field input:focus,
@@ -62,13 +67,14 @@
 
 .color-input {
     display: grid;
-    grid-template-columns: 32px 1fr;
-    gap: 6px;
+    grid-template-columns: 42px 1fr;
+    gap: 8px;
 }
 
 .form-field input.color-picker {
-    width: 32px;
-    padding: 2px;
+    width: 42px;
+    height: 42px;
+    padding: 4px;
     cursor: pointer;
 }
 
@@ -77,61 +83,67 @@
     align-items: center;
     justify-content: space-between;
     width: 52%;
-    min-height: 32px;
-    margin-top: 12px;
-    padding: 0 12px;
+    min-height: 44px;
+    margin-top: 16px;
+    padding: 0 14px;
     border: 1px solid #075566;
-    border-radius: 3px;
+    border-radius: 6px;
     background: #0c1d2b;
 }
 
 .cost-label {
     color: #81a0ac;
-    font-size: 8px;
+    font-size: 12px;
     text-transform: uppercase;
 }
 
 .cost-label i {
-    margin-right: 4px;
+    margin-right: 6px;
     color: #21d8a0;
 }
 
 .cost-summary strong {
     color: #39e1ae;
-    font-size: 15px;
+    font-size: 18px;
 }
 
 .cost-summary small {
     color: #b4c7c9;
-    font-size: 8px;
+    font-size: 12px;
     font-weight: 400;
+}
+
+.form-error {
+    margin-top: 8px;
+    color: #ff7b7b;
+    font-size: 13px;
 }
 
 .form-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
     flex: 0 0 auto;
-    padding-top: 6px;
+    padding-top: 10px;
 }
 
 .form-actions button {
-    height: 32px;
+    height: 44px;
     border: 0;
-    border-radius: 4px;
-    font: 700 10px 'Inter', sans-serif;
+    border-radius: 6px;
+    font: 700 14px 'Inter', sans-serif;
     cursor: pointer;
 }
 
 .form-cancel {
-    padding: 0 14px;
+    padding: 0 18px;
     background: #263149;
     color: #c3ccdc;
 }
 
 .form-save {
-    padding: 0 19px;
+    padding: 0 22px;
     background: #ff7900;
     color: #241508;
     box-shadow: 0 4px 12px rgba(255, 121, 0, .22);
